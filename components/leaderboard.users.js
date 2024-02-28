@@ -56,7 +56,11 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     flexDirection: "row",
 
-    elevation: 3,
+    shadowColor: "#000", // Shadow color
+    shadowOffset: { width: 0, height: 2 }, // Shadow offset
+    shadowOpacity: 0.25, // Shadow opacity
+    shadowRadius: 3.84, // Shadow radius
+    elevation: 5,
   },
   title1: {
     fontSize: 18,

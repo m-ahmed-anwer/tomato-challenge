@@ -1,6 +1,6 @@
 import { Picker } from "@react-native-picker/picker";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -20,18 +20,30 @@ export default function Game() {
   const number = [0, 1, 2, 4, 5, 6, 7, 8, 9];
   const navigation = useNavigation();
   const [value, setValue] = useState(1);
-  const [game, setGame] = useState({});
+  const [game, setGame] = useState({
+    score: 0,
+    api: null,
+  });
 
   const fetchData = async () => {
     try {
       const response = await fetch("https://marcconrad.com/uob/tomato/api.php");
       const data = await response.json();
-      setGame(data);
+      setGame({ ...game, api: data });
     } catch (error) {
       console.error("Error:", error);
     }
   };
-  fetchData;
+  useEffect(() => {
+    fetchData();
+  }, [game.score]);
+
+  const increaseScore = () => {
+    setGame((prevState) => ({
+      ...prevState,
+      score: prevState.score + 1,
+    }));
+  };
 
   const data = number.map((item) => (
     <Picker.Item key={item} label={item.toString()} value={item} />
@@ -49,7 +61,7 @@ export default function Game() {
         style={{ height: "100%", alignItems: "center" }}
       >
         <Image
-          source={{ uri: game.question }}
+          source={{ uri: game.api.question }}
           style={{ width: 340, height: 180, marginTop: 20 }}
         />
 
@@ -71,7 +83,7 @@ export default function Game() {
             fontSize: 18,
           }}
         >
-          The Correct Answer is {game.solution}
+          The Correct Answer is {game.score}
         </Text>
 
         <Text
@@ -87,8 +99,8 @@ export default function Game() {
         <Picker
           style={{
             backgroundColor: "#EDEDED",
-            borderRadius: 5,
-            borderBottomWidth: 1,
+            borderRadius: 9000,
+            borderBottomWidth: 10,
             borderBottomColor: "#5f5f5f",
           }}
           selectedValue={value}
@@ -101,9 +113,8 @@ export default function Game() {
 
         <ThemedButton
           onPress={() => {
-            setTimeout(() => {
-              //navigation.navigate("");
-            }, 50);
+            increaseScore();
+            //navigation.navigate("");
           }}
           style={{ marginTop: 40 }}
           name="bruce"
@@ -111,7 +122,6 @@ export default function Game() {
         >
           <Text
             style={{
-              fontFamily: "sans-serif",
               color: "black",
               fontSize: 20,
               fontWeight: "bold",
