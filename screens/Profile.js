@@ -37,6 +37,12 @@ export default function Profile() {
               <Text style={styles.txt2}>ahmedanwer0094@gmail.com</Text>
             </View>
           </View>
+          <View style={styles.container2}>
+            <TouchableOpacity style={styles.box}>
+              <Text style={styles.text}>Log Out</Text>
+              <Icon name="log-out" style={styles.iconInner} />
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </View>
@@ -55,18 +61,27 @@ const styles = StyleSheet.create({
     borderBottomEndRadius: hp(25),
     borderBottomStartRadius: hp(25),
   },
-
+  iconInner: {
+    fontSize: 25,
+    color: "white",
+  },
   icon: {
     fontSize: 28,
     width: 32,
+  },
+  text: {
+    fontSize: 20,
+    fontWeight: "900",
+    color: "white",
+    letterSpacing: 0.1,
   },
   profile: {
     alignItems: "center",
   },
   img: {
-    height: hp(16),
-    width: hp(16),
-    borderRadius: hp(10),
+    height: 130,
+    width: 130,
+    borderRadius: 100,
     borderWidth: 3,
     borderColor: "grey",
   },
@@ -74,12 +89,31 @@ const styles = StyleSheet.create({
     fontSize: 21,
     marginTop: 4,
     color: "#404070",
-    fontFamily: "Futura",
   },
   username: {
     fontSize: 15,
     marginTop: 4,
     color: "#5f5f5f",
+  },
+  container2: {
+    marginTop: 70,
+    marginLeft: "auto",
+    marginRight: "auto",
+    width: "60%",
+    backgroundColor: "red",
+    borderRadius: 20,
+    shadowColor: "black",
+    shadowOffset: { width: 1, height: 2 },
+    shadowRadius: 3,
+    shadowOpacity: 0.2,
+  },
+  box: {
+    flexDirection: "row",
+    height: hp(6),
+    borderBottomColor: "#f5f5f5",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: hp(2),
   },
   direction: {
     flexDirection: "row",

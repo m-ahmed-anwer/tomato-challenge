@@ -5,6 +5,7 @@ import {
   ScrollView,
   TextInput,
   TouchableOpacity,
+  StyleSheet,
   Dimensions,
   Image,
 } from "react-native";
@@ -25,13 +26,22 @@ export default function Login() {
     >
       <LinearGradient
         colors={["#00d2ff", "#0aa2ff", "#55d2ff"]}
-        className="h-full  items-center  "
+        style={{ height: "100%", alignItems: "center" }}
       >
         <Image
           source={require("../assets/tomato.png")}
           style={{ width: 200, height: 200, marginTop: 20 }}
         />
-        <View className=" bg-white mx-10 rounded-full flex-row items-center mt-10 ">
+        <View
+          style={{
+            backgroundColor: "white",
+            marginHorizontal: 40,
+            borderRadius: 9999,
+            flexDirection: "row",
+            alignItems: "center",
+            marginTop: 40,
+          }}
+        >
           <Icons
             name="email"
             style={{
@@ -41,12 +51,29 @@ export default function Login() {
             }}
           />
           <TextInput
-            className="flex-1 ml-3 h-12 text-xl placeholder:text-black placeholder:font-bold placeholder:text-xl"
+            style={{
+              flex: 1,
+              marginLeft: 3,
+              height: 48,
+              fontSize: 16,
+              fontWeight: "bold",
+              color: "black",
+              paddingLeft: 12,
+            }}
             placeholder="Email"
             keyboardType="email-address"
           />
         </View>
-        <View className=" bg-white mx-10 rounded-full flex-row items-center mt-10">
+        <View
+          style={{
+            backgroundColor: "white",
+            marginHorizontal: 40,
+            borderRadius: 9999,
+            flexDirection: "row",
+            alignItems: "center",
+            marginTop: 40,
+          }}
+        >
           <Icon
             name="lock"
             style={{
@@ -56,7 +83,15 @@ export default function Login() {
             }}
           />
           <TextInput
-            className="flex-1 ml-3 h-12 text-xl placeholder:text-black placeholder:font-bold placeholder:text-xl"
+            style={{
+              flex: 1,
+              marginLeft: 3,
+              height: 48,
+              fontSize: 16,
+              fontWeight: "bold",
+              color: "black",
+              paddingLeft: 12,
+            }}
             placeholder="Password"
             secureTextEntry
           />
@@ -67,23 +102,36 @@ export default function Login() {
               navigation.navigate("Signup");
             }, 50);
           }}
-          className="mt-10"
+          style={{ marginTop: 40 }}
           name="bruce"
           type="anchor"
         >
           <Text
-            style={{ fontFamily: "sans-serif" }}
-            className="text-black text-2xl font-bold"
+            style={{
+              fontFamily: "sans-serif",
+              color: "black",
+              fontSize: 24,
+              fontWeight: "bold",
+            }}
           >
             LOGIN
           </Text>
         </ThemedButton>
 
-        <Text className="text-white font-bold mt-5 text-lg">
+        <Text
+          style={{
+            color: "white",
+            fontWeight: "bold",
+            marginTop: 30,
+            fontSize: 18,
+          }}
+        >
           Don't have an account?{" "}
           <Text
             onPress={() => navigation.navigate("Signup")}
-            className="text-red-500"
+            style={{
+              color: "blue",
+            }}
           >
             Sign Up
           </Text>

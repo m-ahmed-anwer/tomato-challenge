@@ -46,21 +46,42 @@ export default function Game() {
     >
       <LinearGradient
         colors={["#F8F0E5", "#F8F0f5", "#e8F0E5"]}
-        className="h-full  items-center  "
+        style={{ height: "100%", alignItems: "center" }}
       >
         <Image
           source={{ uri: game.question }}
           style={{ width: 340, height: 180, marginTop: 20 }}
         />
 
-        <Text className="text-[#00c900] font-bold mt-5 text-lg">
+        <Text
+          style={{
+            color: "#00c900",
+            fontWeight: "bold",
+            marginTop: 20,
+            fontSize: 18,
+          }}
+        >
           Its Correct ✅
         </Text>
-        <Text className="text-red-500 font-bold mt-5 text-lg">
+        <Text
+          style={{
+            color: "#ef4444",
+            fontWeight: "bold",
+            marginTop: 20,
+            fontSize: 18,
+          }}
+        >
           The Correct Answer is {game.solution}
         </Text>
 
-        <Text className="text-black font-bold mt-5 text-lg">
+        <Text
+          style={{
+            color: "black",
+            fontWeight: "bold",
+            marginTop: 20,
+            fontSize: 18,
+          }}
+        >
           Select the Answer
         </Text>
         <Picker
@@ -81,16 +102,20 @@ export default function Game() {
         <ThemedButton
           onPress={() => {
             setTimeout(() => {
-              navigation.navigate("Signup");
+              //navigation.navigate("");
             }, 50);
           }}
-          className="mt-10"
+          style={{ marginTop: 40 }}
           name="bruce"
           type="anchor"
         >
           <Text
-            style={{ fontFamily: "sans-serif" }}
-            className="text-black text-2xl font-bold"
+            style={{
+              fontFamily: "sans-serif",
+              color: "black",
+              fontSize: 20,
+              fontWeight: "bold",
+            }}
           >
             Submit
           </Text>

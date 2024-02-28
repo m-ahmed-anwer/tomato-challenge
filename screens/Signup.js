@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   Dimensions,
+  StyleSheet,
   Image,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
@@ -27,14 +28,22 @@ export default function Signup() {
     >
       <LinearGradient
         colors={["#00d2ff", "#0aa2ff", "#55d2ff"]}
-        className="h-full items-center  "
+        style={{ height: "100%", alignItems: "center" }}
       >
         <Image
           source={require("../assets/tomato2.png")}
-          className="rounded-full"
-          style={{ width: 200, height: 200, marginTop: 20 }}
+          style={{ width: 200, height: 200, marginTop: 20, borderRadius: 9999 }}
         />
-        <View className=" bg-white mx-10 rounded-full flex-row items-center mt-10">
+        <View
+          style={{
+            backgroundColor: "white",
+            marginHorizontal: 40,
+            borderRadius: 9999,
+            flexDirection: "row",
+            alignItems: "center",
+            marginTop: 40,
+          }}
+        >
           <Icon
             name="user-alt"
             style={{
@@ -44,12 +53,29 @@ export default function Signup() {
             }}
           />
           <TextInput
-            className="flex-1 ml-3 h-12 text-xl placeholder:text-black placeholder:font-bold placeholder:text-xl"
+            style={{
+              flex: 1,
+              marginLeft: 3,
+              height: 48,
+              fontSize: 16,
+              fontWeight: "bold",
+              color: "black",
+              paddingLeft: 12,
+            }}
             placeholder="Name"
             keyboardType="default"
           />
         </View>
-        <View className=" bg-white mx-10 rounded-full flex-row items-center mt-10 ">
+        <View
+          style={{
+            backgroundColor: "white",
+            marginHorizontal: 40,
+            borderRadius: 9999,
+            flexDirection: "row",
+            alignItems: "center",
+            marginTop: 40,
+          }}
+        >
           <Icons
             name="email"
             style={{
@@ -59,12 +85,29 @@ export default function Signup() {
             }}
           />
           <TextInput
-            className="flex-1 ml-3 h-12 text-xl placeholder:text-black placeholder:font-bold placeholder:text-xl"
+            style={{
+              flex: 1,
+              marginLeft: 3,
+              height: 48,
+              fontSize: 16,
+              fontWeight: "bold",
+              color: "black",
+              paddingLeft: 12,
+            }}
             placeholder="Email"
             keyboardType="email-address"
           />
         </View>
-        <View className=" bg-white mx-10 rounded-full flex-row items-center mt-10">
+        <View
+          style={{
+            backgroundColor: "white",
+            marginHorizontal: 40,
+            borderRadius: 9999,
+            flexDirection: "row",
+            alignItems: "center",
+            marginTop: 40,
+          }}
+        >
           <Icon
             name="lock"
             style={{
@@ -74,7 +117,15 @@ export default function Signup() {
             }}
           />
           <TextInput
-            className="flex-1 ml-3 h-12 text-xl placeholder:text-black placeholder:font-bold placeholder:text-xl"
+            style={{
+              flex: 1,
+              marginLeft: 3,
+              height: 48,
+              fontSize: 16,
+              fontWeight: "bold",
+              color: "black",
+              paddingLeft: 12,
+            }}
             placeholder="Password"
             secureTextEntry
           />
@@ -83,20 +134,38 @@ export default function Signup() {
           onPress={() => {
             setTimeout(() => {
               navigation.navigate("Login");
-            }, 50); 
+            }, 50);
           }}
-          className="mt-10"
+          style={{ marginTop: 40 }}
           name="bruce"
           type="anchor"
         >
-          <Text className="text-black text-2xl font-bold">SIGN UP</Text>
+          <Text
+            style={{
+              fontFamily: "sans-serif",
+              color: "black",
+              fontSize: 24,
+              fontWeight: "bold",
+            }}
+          >
+            SIGN UP
+          </Text>
         </ThemedButton>
 
-        <Text className="text-white font-bold mt-5 text-lg">
+        <Text
+          style={{
+            color: "white",
+            fontWeight: "bold",
+            marginTop: 30,
+            fontSize: 18,
+          }}
+        >
           Already have account?{" "}
           <Text
             onPress={() => navigation.navigate("Login")}
-            className="text-red-500"
+            style={{
+              color: "blue",
+            }}
           >
             Login
           </Text>

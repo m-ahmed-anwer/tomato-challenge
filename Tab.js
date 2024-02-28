@@ -1,5 +1,6 @@
 import React from "react";
 import Icon from "react-native-vector-icons/FontAwesome5";
+import Icons from "react-native-vector-icons/Entypo";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Landing from "./screens/Landing";
 import Login from "./screens/Login";
@@ -88,17 +89,35 @@ const AuthTab = () => {
 
 const AppTab = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      options={{
+        style: { backgroundColor: "rgba(255, 255, 255, 0.8)" }, // Set the background color with alpha
+        activeTintColor: "#1e90ff", // Set the color for the active tab
+        inactiveTintColor: "gray", // Set the color for the inactive tab
+      }}
+    >
       <Tab.Screen
         name="Tomato Mystery Chllenge"
         component={Game}
-        options={{ headerShown: true, headerBackgroundColor: "#00d2ff" }}
+        options={{
+          headerShown: true,
+          headerBackgroundColor: "#00d2ff",
+          tabBarLabel: "Game",
+          tabBarIcon: ({ color, size }) => (
+            <Icons name="game-controller" size={size} color={color} />
+          ),
+        }}
       />
 
       <Tab.Screen
         name="Leader Board"
         component={Leaderboard}
-        options={{ headerShown: true }}
+        options={{
+          headerShown: true,
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="trophy" size={size} color={color} />
+          ),
+        }}
       />
       <Tab.Screen
         name="Profile"
@@ -110,6 +129,10 @@ const AppTab = () => {
           headerTintColor: "black",
           headerTitleStyle: { fontWeight: "bold", fontSize: 25 },
           headerBackTitleVisible: false,
+
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="user-alt" size={size} color={color} />
+          ),
         })}
       />
     </Tab.Navigator>

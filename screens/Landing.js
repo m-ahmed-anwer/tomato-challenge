@@ -22,9 +22,8 @@ export default function Landing() {
     <View style={{ backgroundColor: "#fcfcfd" }}>
       <View style={styles.top}>
         <Image
-          className="rounded-3xl"
           source={require("../assets/tomato3.png")}
-          style={{ width: 300, height: 200, marginTop: 10 }}
+          style={{ width: 300, height: 200, marginTop: 10, borderRadius: 25 }}
         />
       </View>
 
@@ -37,13 +36,17 @@ export default function Landing() {
                   navigation.navigate("Login");
                 }, 50);
               }}
-              className="mt-6 "
+              style={{ marginTop: 25 }}
               name="bruce"
               type="anchor"
             >
               <Text
-                style={{ fontFamily: "sans-serif" }}
-                className="text-black text-2xl font-bold"
+                style={{
+                  fontFamily: "sans-serif",
+                  color: "black",
+                  fontSize: 18,
+                  fontWeight: "bold",
+                }}
               >
                 LOGIN
               </Text>
@@ -54,13 +57,17 @@ export default function Landing() {
                   navigation.navigate("Signup");
                 }, 50);
               }}
-              className="mt-6 "
+              style={{ marginTop: 25 }}
               name="bruce"
               type="anchor"
             >
               <Text
-                style={{ fontFamily: "sans-serif" }}
-                className="text-black text-2xl font-bold"
+                style={{
+                  fontFamily: "sans-serif",
+                  color: "black",
+                  fontSize: 18,
+                  fontWeight: "bold",
+                }}
               >
                 SIGN UP
               </Text>
@@ -72,13 +79,17 @@ export default function Landing() {
                   navigation.navigate("Login");
                 }, 50);
               }}
-              className="mt-6 "
+              style={{ marginTop: 25 }}
               name="bruce"
               type="secondary"
             >
               <Text
-                style={{ fontFamily: "sans-serif" }}
-                className="text-black text-xl font-bold"
+                style={{
+                  fontFamily: "sans-serif",
+                  color: "black",
+                  fontSize: 17,
+                  fontWeight: "bold",
+                }}
               >
                 PLAY AS GUEST
               </Text>
