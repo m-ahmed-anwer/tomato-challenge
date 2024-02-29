@@ -138,7 +138,7 @@ export default function Game() {
         >
           Select the Answer
         </Text>
-        <Picker
+        {/* <Picker
           style={{
             backgroundColor: "#EDEDED",
             borderRadius: 9000,
@@ -150,7 +150,7 @@ export default function Game() {
           itemStyle={{ height: 135 }}
         >
           {data}
-        </Picker>
+        </Picker> */}
 
         <ThemedButton
           onPress={() => {

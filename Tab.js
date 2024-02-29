@@ -1,7 +1,8 @@
+import { BlurView } from "expo-blur";
 import React from "react";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Icons from "react-native-vector-icons/Entypo";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import Landing from "./screens/Landing";
 import Login from "./screens/Login";
 import Signup from "./screens/Signup";
@@ -12,7 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
+const Tab = createMaterialBottomTabNavigator();
 
 const AuthTab = () => {
   const navigation = useNavigation();
@@ -90,11 +91,10 @@ const AuthTab = () => {
 const AppTab = () => {
   return (
     <Tab.Navigator
-      options={{
-        style: { backgroundColor: "rgba(255, 255, 255, 0.8)" }, // Set the background color with alpha
-        activeTintColor: "#1e90ff", // Set the color for the active tab
-        inactiveTintColor: "gray", // Set the color for the inactive tab
-      }}
+      initialRouteName="Home"
+      activeColor="#f0edf6"
+      inactiveColor="#676D75"
+      barStyle={{ backgroundColor: "#102C57" }}
     >
       <Tab.Screen
         name="Tomato Mystery Chllenge"
@@ -125,6 +125,7 @@ const AppTab = () => {
         name="Profile"
         component={Profile}
         options={({ route }) => ({
+          tabBarLabel: "Profile",
           title: "Profile",
           tabBarVisible: false, // Hide the bottom navigation bar
           headerStyle: { backgroundColor: "#E0DDAA" },

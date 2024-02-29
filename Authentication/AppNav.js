@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 // import { AuthContext } from "./AuthContext";
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator, SafeAreaView, View } from "react-native";
 import { AppTab, AuthTab } from "../Tab";
 
 export default function AppNav() {
