@@ -37,6 +37,19 @@ export default function Profile() {
               <Text style={styles.txt2}>ahmedanwer0094@gmail.com</Text>
             </View>
           </View>
+          <View
+            style={{
+              marginTop: 30,
+              marginLeft: "auto",
+              marginRight: "auto",
+            }}
+          >
+            <Text
+              style={{ fontSize: 22, fontWeight: "bold", color: "#014070" }}
+            >
+              Highest Score : 12
+            </Text>
+          </View>
           <View style={styles.container2}>
             <TouchableOpacity style={styles.box}>
               <Text style={styles.text}>Log Out</Text>

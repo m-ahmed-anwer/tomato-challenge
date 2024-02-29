@@ -24,12 +24,24 @@ export default function Game() {
     score: 0,
     api: null,
   });
+  const [seconds, setSeconds] = useState();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (seconds > 0) {
+        setSeconds((prevSeconds) => prevSeconds - 1);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [seconds]);
 
   const fetchData = async () => {
     try {
       const response = await fetch("https://marcconrad.com/uob/tomato/api.php");
       const data = await response.json();
       setGame({ ...game, api: data });
+      setSeconds(60);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -60,8 +72,38 @@ export default function Game() {
         colors={["#F8F0E5", "#F8F0f5", "#e8F0E5"]}
         style={{ height: "100%", alignItems: "center" }}
       >
+        <View
+          style={{
+            //flex: 1,
+            flexDirection: "row",
+            justifyContent: "space-between",
+            paddingHorizontal: 20,
+            marginTop: 30,
+          }}
+        >
+          <Text style={{ fontSize: 22, fontWeight: "bold" }}>
+            Score : {game.score && game.score}
+          </Text>
+          <Text style={{ fontSize: 22, fontWeight: "bold", marginLeft: 30 }}>
+            Timer : {seconds}s
+          </Text>
+        </View>
+        <View
+          style={{
+            marginTop: 30,
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
+        >
+          <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+            Remaining Lives : ❤️❤️❤️
+          </Text>
+        </View>
+
         <Image
-          source={{ uri: game.api.question }}
+          source={{
+            uri: game.api && game.api.question ? game.api.question : null,
+          }}
           style={{ width: 340, height: 180, marginTop: 20 }}
         />
 
@@ -83,7 +125,7 @@ export default function Game() {
             fontSize: 18,
           }}
         >
-          The Correct Answer is {game.score}
+          The Correct Answer is {game.api && game.api.solution}
         </Text>
 
         <Text
@@ -106,7 +148,6 @@ export default function Game() {
           selectedValue={value}
           onValueChange={(itemValue) => setValue(itemValue)}
           itemStyle={{ height: 135 }}
-          height={200}
         >
           {data}
         </Picker>

@@ -102,6 +102,8 @@ const AppTab = () => {
         options={{
           headerShown: true,
           headerBackgroundColor: "#00d2ff",
+          headerStyle: { backgroundColor: "#F8F0E5" },
+          headerTitleStyle: { fontWeight: "bold", fontSize: 24 },
           tabBarLabel: "Game",
           tabBarIcon: ({ color, size }) => (
             <Icons name="game-controller" size={size} color={color} />
