@@ -4,7 +4,8 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  ActivityIndicator,
+  Platform,
+  SafeAreaView,
 } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import React, { useState, useEffect } from "react";
@@ -18,6 +19,7 @@ export default function Profile() {
 
   return (
     <View style={styles.topBackgroung}>
+      <Text style={styles.profileText}> Profile</Text>
       <View style={styles.background}>
         <View>
           <View style={styles.profile}>
@@ -63,16 +65,19 @@ export default function Profile() {
 }
 const styles = StyleSheet.create({
   topBackgroung: {
-    height: hp(20),
-    backgroundColor: "#EEEDDE",
+    paddingTop: Platform.OS === "ios" ? 60 : 40,
+    height: 200,
+    backgroundColor: "#102C57",
     borderBottomEndRadius: hp(9),
     borderBottomStartRadius: hp(10),
   },
-  background: {
-    backgroundColor: "#E0DDAA",
-    height: hp(15),
-    borderBottomEndRadius: hp(25),
-    borderBottomStartRadius: hp(25),
+  profileText: {
+    fontSize: 30,
+    fontWeight: "900",
+    color: "white",
+
+    marginLeft: "auto",
+    marginRight: "auto",
   },
   iconInner: {
     fontSize: 25,
@@ -90,6 +95,7 @@ const styles = StyleSheet.create({
   },
   profile: {
     alignItems: "center",
+    marginTop: 20,
   },
   img: {
     height: 130,
@@ -149,7 +155,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   bottom: {
-    marginTop: 80,
+    marginTop: 30,
   },
   txt1: {
     fontSize: 18,

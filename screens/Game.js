@@ -9,6 +9,10 @@ import {
   TouchableOpacity,
   Dimensions,
   Image,
+  SafeAreaView,
+  Platform,
+  Modal,
+  Pressable,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Icons from "react-native-vector-icons/MaterialIcons";
@@ -25,6 +29,7 @@ export default function Game() {
     api: null,
   });
   const [seconds, setSeconds] = useState();
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -62,83 +67,190 @@ export default function Game() {
   ));
 
   return (
-    <ScrollView
-      contentContainerStyle={{ flexGrow: 1 }}
-      keyboardShouldPersistTaps="handled"
-      showsVerticalScrollIndicator={false}
-      bounces={false}
-    >
-      <LinearGradient
-        colors={["#F8F0E5", "#F8F0f5", "#e8F0E5"]}
-        style={{ height: "100%", alignItems: "center" }}
+    <SafeAreaView style={{ backgroundColor: "#F8F0E5" }}>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
       >
-        <View
+        <SafeAreaView
           style={{
-            //flex: 1,
-            flexDirection: "row",
-            justifyContent: "space-between",
-            paddingHorizontal: 20,
-            marginTop: 30,
+            flex: 1,
+            alignItems: "center",
+            marginTop: 22,
+            backgroundColor: "#F8F0E5",
           }}
         >
-          <Text style={{ fontSize: 22, fontWeight: "bold" }}>
-            Score : {game.score && game.score}
+          <Text
+            style={{
+              fontSize: 24,
+              fontWeight: "900",
+              color: "#102C57",
+              marginBottom: 10,
+              marginLeft: "auto",
+              marginRight: "auto",
+            }}
+          >
+            Tomato Mystery Challenge
           </Text>
-          <Text style={{ fontSize: 22, fontWeight: "bold", marginLeft: 30 }}>
-            Timer : {seconds}s
+          <View
+            style={{
+              height: 400,
+              backgroundColor: "white",
+              width: "80%",
+              marginLeft: "auto",
+              marginRight: "auto",
+              borderRadius: 50,
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 22,
+                fontWeight: "600",
+                color: "#102C57",
+                marginLeft: "auto",
+                marginRight: "auto",
+              }}
+            >
+              Congratulations
+            </Text>
+            <Text
+              style={{
+                fontSize: 20,
+                fontWeight: "500",
+                color: "#102C57",
+                marginTop: 30,
+                marginLeft: "auto",
+                marginRight: "auto",
+              }}
+            >
+              Your Final Score is 12
+            </Text>
+            <ThemedButton
+              onPress={() => {
+                setTimeout(() => {
+                  setModalVisible(!modalVisible);
+                }, 50);
+              }}
+              style={{ marginTop: 50, marginLeft: "auto", marginRight: "auto" }}
+              name="bruce"
+              type="anchor"
+            >
+              <Text
+                style={{
+                  fontFamily: "sans-serif",
+                  color: "black",
+                  fontSize: 20,
+                  fontWeight: "bold",
+                }}
+              >
+                Restart Game
+              </Text>
+            </ThemedButton>
+            <Pressable onPress={() => setModalVisible(!modalVisible)}>
+              <Text>Restart the Game</Text>
+            </Pressable>
+          </View>
+        </SafeAreaView>
+      </Modal>
+
+      {!modalVisible && (
+        <View>
+          <Text
+            style={{
+              fontSize: 24,
+              fontWeight: "900",
+              color: "#102C57",
+              marginBottom: 10,
+              marginTop: Platform.OS === "ios" ? 10 : 40,
+              marginLeft: "auto",
+              marginRight: "auto",
+            }}
+          >
+            Tomato Mystery Challenge
           </Text>
-        </View>
-        <View
-          style={{
-            marginTop: 30,
-            marginLeft: "auto",
-            marginRight: "auto",
-          }}
-        >
-          <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-            Remaining Lives : ❤️❤️❤️
-          </Text>
-        </View>
+          <ScrollView
+            contentContainerStyle={{ flexGrow: 1, height: "100%" }}
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+            bounces={false}
+          >
+            <LinearGradient
+              colors={["#F8F0E5", "#F8Faf5", "#e8F0E5"]}
+              style={{ height: "100%", alignItems: "center" }}
+            >
+              <View
+                style={{
+                  //flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  paddingHorizontal: 20,
+                  marginTop: 30,
+                }}
+              >
+                <Text style={{ fontSize: 22, fontWeight: "bold" }}>
+                  Score : {game.score && game.score}
+                </Text>
+                <Text
+                  style={{ fontSize: 22, fontWeight: "bold", marginLeft: 30 }}
+                >
+                  Timer : {seconds}s
+                </Text>
+              </View>
+              <View
+                style={{
+                  marginTop: 30,
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                }}
+              >
+                <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+                  Remaining Lives : ❤️❤️❤️
+                </Text>
+              </View>
 
-        <Image
-          source={{
-            uri: game.api && game.api.question ? game.api.question : null,
-          }}
-          style={{ width: 340, height: 180, marginTop: 20 }}
-        />
+              <Image
+                source={{
+                  uri: game.api && game.api.question ? game.api.question : null,
+                }}
+                style={{ width: 340, height: 180, marginTop: 20 }}
+              />
 
-        <Text
-          style={{
-            color: "#00c900",
-            fontWeight: "bold",
-            marginTop: 20,
-            fontSize: 18,
-          }}
-        >
-          Its Correct ✅
-        </Text>
-        <Text
-          style={{
-            color: "#ef4444",
-            fontWeight: "bold",
-            marginTop: 20,
-            fontSize: 18,
-          }}
-        >
-          The Correct Answer is {game.api && game.api.solution}
-        </Text>
+              <Text
+                style={{
+                  color: "#00c900",
+                  fontWeight: "bold",
+                  marginTop: 20,
+                  fontSize: 18,
+                }}
+              >
+                Its Correct ✅
+              </Text>
+              <Text
+                style={{
+                  color: "#ef4444",
+                  fontWeight: "bold",
+                  marginTop: 20,
+                  fontSize: 18,
+                }}
+              >
+                The Correct Answer is {game.api && game.api.solution}
+              </Text>
 
-        <Text
-          style={{
-            color: "black",
-            fontWeight: "bold",
-            marginTop: 20,
-            fontSize: 18,
-          }}
-        >
-          Select the Answer
-        </Text>
-        {/* <Picker
+              <Text
+                style={{
+                  color: "black",
+                  fontWeight: "bold",
+                  marginTop: 20,
+                  fontSize: 18,
+                }}
+              >
+                Select the Answer
+              </Text>
+              {/* <Picker
           style={{
             backgroundColor: "#EDEDED",
             borderRadius: 9000,
@@ -152,26 +264,30 @@ export default function Game() {
           {data}
         </Picker> */}
 
-        <ThemedButton
-          onPress={() => {
-            increaseScore();
-            //navigation.navigate("");
-          }}
-          style={{ marginTop: 40 }}
-          name="bruce"
-          type="anchor"
-        >
-          <Text
-            style={{
-              color: "black",
-              fontSize: 20,
-              fontWeight: "bold",
-            }}
-          >
-            Submit
-          </Text>
-        </ThemedButton>
-      </LinearGradient>
-    </ScrollView>
+              <ThemedButton
+                onPress={() => {
+                  setModalVisible(true);
+                  //increaseScore();
+                  //navigation.navigate("");
+                }}
+                style={{ marginTop: 40 }}
+                name="bruce"
+                type="anchor"
+              >
+                <Text
+                  style={{
+                    color: "black",
+                    fontSize: 20,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Submit
+                </Text>
+              </ThemedButton>
+            </LinearGradient>
+          </ScrollView>
+        </View>
+      )}
+    </SafeAreaView>
   );
 }

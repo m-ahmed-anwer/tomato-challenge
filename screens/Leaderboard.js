@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, FlatList, RefreshControl, StyleSheet, Text } from "react-native";
+import {
+  View,
+  FlatList,
+  RefreshControl,
+  StyleSheet,
+  Text,
+  SafeAreaView,
+} from "react-native";
 import LeaderboardUsers from "../components/leaderboard.users";
 
 export default function Leaderboard() {
@@ -26,7 +33,7 @@ export default function Leaderboard() {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Top Scores Users</Text>
       <FlatList
         data={data}
@@ -40,7 +47,7 @@ export default function Leaderboard() {
         style={styles.flatlist}
         showsVerticalScrollIndicator={false}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -50,12 +57,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 10,
-    marginTop: 10,
+    fontSize: 27,
+    fontWeight: "900",
+    color: "#102C57",
+    marginVertical: 20,
     marginLeft: "auto",
     marginRight: "auto",
   },
-  
 });

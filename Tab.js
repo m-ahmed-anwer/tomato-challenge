@@ -1,7 +1,8 @@
 import { BlurView } from "expo-blur";
 import React from "react";
-import Icon from "react-native-vector-icons/FontAwesome5";
+import Icon from "react-native-vector-icons/FontAwesome";
 import Icons from "react-native-vector-icons/Entypo";
+import FontAwesome6 from "react-native-vector-icons/FontAwesome6";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import Landing from "./screens/Landing";
 import Login from "./screens/Login";
@@ -91,10 +92,11 @@ const AuthTab = () => {
 const AppTab = () => {
   return (
     <Tab.Navigator
-      initialRouteName="Home"
-      activeColor="#f0edf6"
+      initialRouteName="Tomato Mystery Chllenge"
+      activeColor="#ffff"
       inactiveColor="#676D75"
       barStyle={{ backgroundColor: "#102C57" }}
+      tabBarColor="#1111"
     >
       <Tab.Screen
         name="Tomato Mystery Chllenge"
@@ -103,10 +105,10 @@ const AppTab = () => {
           headerShown: true,
           headerBackgroundColor: "#00d2ff",
           headerStyle: { backgroundColor: "#F8F0E5" },
-          headerTitleStyle: { fontWeight: "bold", fontSize: 24 },
+          headerTitleStyle: { fontWeight: "bold", fontSize: 23 },
           tabBarLabel: "Game",
           tabBarIcon: ({ color, size }) => (
-            <Icons name="game-controller" size={size} color={color} />
+            <FontAwesome6 name="gamepad" size={25} color={color} />
           ),
         }}
       />
@@ -117,7 +119,7 @@ const AppTab = () => {
         options={{
           headerShown: true,
           tabBarIcon: ({ color, size }) => (
-            <Icon name="trophy" size={size} color={color} />
+            <Icon name="trophy" size={30} color={color} />
           ),
         }}
       />
@@ -134,7 +136,7 @@ const AppTab = () => {
           headerBackTitleVisible: false,
 
           tabBarIcon: ({ color, size }) => (
-            <Icon name="user-alt" size={size} color={color} />
+            <Icon name="user" size={30} color={color} />
           ),
         })}
       />
