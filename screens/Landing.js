@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Dimensions,
   Image,
+  Platform,
 } from "react-native";
 import React from "react";
 import {
@@ -20,79 +21,88 @@ export default function Landing() {
   const navigation = useNavigation();
   return (
     <View style={{ backgroundColor: "#fcfcfd" }}>
+      <Text
+        style={{
+          fontSize: 28,
+          fontWeight: "900",
+          marginBottom: 10,
+          marginTop: Platform.OS === "ios" ? 90 : 50,
+          color: "#102C57",
+          marginLeft: "auto",
+          marginRight: "auto",
+        }}
+      >
+        Tomato Mystery Challenge
+      </Text>
       <View style={styles.top}>
         <Image
-          source={require("../assets/tomato3.png")}
-          style={{ width: 300, height: 200, marginTop: 10, borderRadius: 25 }}
+          source={require("../assets/mystery.png")}
+          style={{ width: 270, height: 230, marginTop: 40, borderRadius: 25 }}
         />
       </View>
 
-      <View style={styles.firstCon}>
-        <View style={styles.SecondCon}>
-          <View style={styles.container}>
-            <ThemedButton
-              onPress={() => {
-                setTimeout(() => {
-                  navigation.navigate("Login");
-                }, 50);
-              }}
-              style={{ marginTop: 25 }}
-              name="bruce"
-              type="anchor"
-            >
-              <Text
-                style={{
-                  color: "black",
-                  fontSize: 18,
-                  fontWeight: "bold",
-                }}
-              >
-                LOGIN
-              </Text>
-            </ThemedButton>
-            <ThemedButton
-              onPress={() => {
-                setTimeout(() => {
-                  navigation.navigate("Signup");
-                }, 50);
-              }}
-              style={{ marginTop: 25 }}
-              name="bruce"
-              type="anchor"
-            >
-              <Text
-                style={{
-                  color: "black",
-                  fontSize: 18,
-                  fontWeight: "bold",
-                }}
-              >
-                SIGN UP
-              </Text>
-            </ThemedButton>
+      <View style={styles.container}>
+        <ThemedButton
+          onPress={() => {
+            setTimeout(() => {
+              navigation.navigate("Login");
+            }, 50);
+          }}
+          style={{ marginTop: 65 }}
+          name="bruce"
+          type="anchor"
+        >
+          <Text
+            style={{
+              color: "black",
+              fontSize: 20,
+              fontWeight: "bold",
+            }}
+          >
+            LOGIN
+          </Text>
+        </ThemedButton>
+        <ThemedButton
+          onPress={() => {
+            setTimeout(() => {
+              navigation.navigate("Signup");
+            }, 50);
+          }}
+          style={{ marginTop: 25 }}
+          name="bruce"
+          type="anchor"
+        >
+          <Text
+            style={{
+              color: "black",
+              fontSize: 20,
+              fontWeight: "bold",
+            }}
+          >
+            SIGN UP
+          </Text>
+        </ThemedButton>
 
-            <ThemedButton
-              onPress={() => {
-                setTimeout(() => {
-                  navigation.navigate("Login");
-                }, 50);
-              }}
-              style={{ marginTop: 25 }}
-              name="bruce"
-              type="secondary"
-            >
-              <Text
-                style={{
-                  color: "black",
-                  fontSize: 17,
-                  fontWeight: "bold",
-                }}
-              >
-                PLAY AS GUEST
-              </Text>
-            </ThemedButton>
-          </View>
-        </View>
+        <ThemedButton
+          onPress={() => {
+            setTimeout(() => {
+              navigation.navigate("Login");
+            }, 50);
+          }}
+          style={{ marginTop: 25 }}
+          name="bruce"
+          type="secondary"
+        >
+          <Text
+            style={{
+              color: "black",
+              fontSize: 19,
+              fontWeight: "bold",
+            }}
+          >
+            PLAY AS GUEST
+          </Text>
+        </ThemedButton>
       </View>
     </View>
   );
@@ -117,27 +127,13 @@ const styles = StyleSheet.create({
     transform: [{ rotate: "-90deg" }],
     fontWeight: "600",
   },
-  firstCon: {
-    height: "90%",
-    backgroundColor: "#0aa2ff",
-    borderTopEndRadius: hp(25),
-    borderTopStartRadius: hp(25),
-    marginTop: 10,
-  },
-  SecondCon: {
-    marginTop: 70,
-    height: "100%",
-    backgroundColor: "#55d2ff",
-    borderTopEndRadius: hp(20),
-    borderTopStartRadius: hp(20),
-  },
-  container: {
-    marginVertical: 65,
 
-    borderTopEndRadius: hp(15),
-    borderTopStartRadius: hp(15),
-    height: "100%",
-    backgroundColor: "#00d2ff",
+  container: {
+    marginVertical: 100,
+    borderTopEndRadius: hp(10),
+    borderTopStartRadius: hp(10),
+    height: "80%",
+    backgroundColor: "#102C57",
     alignItems: "center",
   },
   bgBtn1: {

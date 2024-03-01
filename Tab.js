@@ -24,23 +24,7 @@ const AuthTab = () => {
         name="Landing"
         component={Landing}
         options={{
-          title: "Tomato Mystery Challenge",
-          headerTintColor: "black",
-          headerTitleStyle: {
-            fontWeight: "bold",
-            textAlign: "center",
-          },
-          headerTitleAlign: "center",
-          headerTitleStyle: {
-            fontWeight: "bold",
-            fontSize: 26,
-
-            color: "#2e2e2e",
-          },
-          headerBackTitleVisible: false,
-          headerStyle: {
-            borderBottomWidth: 0,
-          },
+          headerShown: false,
         }}
       />
 
@@ -50,7 +34,7 @@ const AuthTab = () => {
         options={({ route }) => ({
           title: "Login",
           tabBarVisible: false, // Hide the bottom navigation bar
-          headerStyle: { backgroundColor: "#00d4fb" },
+          headerStyle: { backgroundColor: "#102C57" },
           headerTintColor: "white",
           headerTitleStyle: { fontWeight: "bold", fontSize: 25 },
           headerBackTitleVisible: false,
@@ -59,7 +43,7 @@ const AuthTab = () => {
               name="arrow-left"
               size={25}
               style={{ paddingLeft: 20 }}
-              backgroundColor="#00d4fb"
+              backgroundColor="#102C57"
               onPress={() => navigation.navigate("Landing")}
             />
           ),
@@ -71,7 +55,7 @@ const AuthTab = () => {
         options={({ route }) => ({
           title: "Sign Up",
           tabBarVisible: false, // Hide the bottom navigation bar
-          headerStyle: { backgroundColor: "#00d4fb" },
+          headerStyle: { backgroundColor: "#102C57", borderBottomWidth: 0 }, // Remove bottom border
           headerTintColor: "white",
           headerTitleStyle: { fontWeight: "bold", fontSize: 25 },
           headerBackTitleVisible: false,
@@ -79,7 +63,7 @@ const AuthTab = () => {
             <Icon.Button
               name="arrow-left"
               size={25}
-              backgroundColor="#00d4fb"
+              backgroundColor="#102C57"
               style={{ paddingLeft: 20 }}
               onPress={() => navigation.navigate("Landing")}
             />
@@ -94,10 +78,15 @@ const AppTab = () => {
   return (
     <Tab.Navigator
       initialRouteName="Tomato Mystery Chllenge"
-      activeColor="#ffff"
+      activeColor="#000"
       inactiveColor="#676D75"
       barStyle={{ backgroundColor: "#102C57" }}
+      labeled={true}
       tabBarColor="#1111"
+      tabBarOptions={{
+        activeTintColor: "#ffff", // Change to the color you want for the active tab
+        inactiveTintColor: "#ffff", // Change to the color you want for the inactive tabs
+      }}
     >
       <Tab.Screen
         name="Tomato Mystery Chllenge"

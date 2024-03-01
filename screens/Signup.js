@@ -1,13 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
   ScrollView,
   TextInput,
-  TouchableOpacity,
-  Dimensions,
   StyleSheet,
   Image,
+  Alert,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Icons from "react-native-vector-icons/MaterialIcons";
@@ -16,9 +15,31 @@ import { ThemedButton } from "react-native-really-awesome-button";
 import { LinearGradient } from "expo-linear-gradient";
 
 export default function Signup() {
-  //const height = Dimensions.get("screen").height;
-
   const navigation = useNavigation();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSignup = () => {
+    if (!name) {
+      Alert.alert("Name Required", "Please enter your name.");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      Alert.alert("Invalid Email", "Please enter a valid email address.");
+      return;
+    }
+
+    if (!password) {
+      Alert.alert("Password Required", "Please enter your password.");
+      return;
+    }
+
+    console.log({ name, email, password });
+  };
+
   return (
     <ScrollView
       contentContainerStyle={{ flexGrow: 1 }}
@@ -27,12 +48,17 @@ export default function Signup() {
       bounces={false}
     >
       <LinearGradient
-        colors={["#00d2ff", "#0aa2ff", "#55d2ff"]}
+        colors={["#102C57", "#101C57", "#102f57"]}
         style={{ height: "100%", alignItems: "center" }}
       >
         <Image
           source={require("../assets/tomato2.png")}
-          style={{ width: 200, height: 200, marginTop: 20, borderRadius: 9999 }}
+          style={{
+            width: 200,
+            height: 200,
+            marginVertical: 50,
+            borderRadius: 9999,
+          }}
         />
         <View
           style={{
@@ -41,13 +67,12 @@ export default function Signup() {
             borderRadius: 9999,
             flexDirection: "row",
             alignItems: "center",
-            marginTop: 40,
           }}
         >
           <Icon
             name="user-alt"
             style={{
-              color: "#00d3fa",
+              color: "#102C57",
               fontSize: 25,
               marginLeft: 15,
             }}
@@ -64,6 +89,8 @@ export default function Signup() {
             }}
             placeholder="Name"
             keyboardType="default"
+            value={name}
+            onChangeText={(text) => setName(text)}
           />
         </View>
         <View
@@ -79,7 +106,7 @@ export default function Signup() {
           <Icons
             name="email"
             style={{
-              color: "#00d3fa",
+              color: "#102C57",
               fontSize: 25,
               marginLeft: 15,
             }}
@@ -96,6 +123,8 @@ export default function Signup() {
             }}
             placeholder="Email"
             keyboardType="email-address"
+            value={email}
+            onChangeText={(text) => setEmail(text)}
           />
         </View>
         <View
@@ -111,7 +140,7 @@ export default function Signup() {
           <Icon
             name="lock"
             style={{
-              color: "#00d3fa",
+              color: "#102C57",
               fontSize: 25,
               marginLeft: 15,
             }}
@@ -128,14 +157,12 @@ export default function Signup() {
             }}
             placeholder="Password"
             secureTextEntry
+            value={password}
+            onChangeText={(text) => setPassword(text)}
           />
         </View>
         <ThemedButton
-          onPress={() => {
-            setTimeout(() => {
-              navigation.navigate("Login");
-            }, 50);
-          }}
+          onPress={handleSignup}
           style={{ marginTop: 40 }}
           name="bruce"
           type="anchor"
@@ -159,11 +186,11 @@ export default function Signup() {
             fontSize: 16,
           }}
         >
-          Already have account?{" "}
+          Already have an account?{" "}
           <Text
             onPress={() => navigation.navigate("Login")}
             style={{
-              color: "blue",
+              color: "#6798ff",
             }}
           >
             Login

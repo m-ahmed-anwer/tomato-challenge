@@ -16,7 +16,7 @@ export default function AppNav() {
   }
   return (
     <NavigationContainer>
-      {userToken !== null ? <AuthTab /> : <AppTab />}
+      {userToken === null ? <AuthTab /> : <AppTab />}
     </NavigationContainer>
   );
 }

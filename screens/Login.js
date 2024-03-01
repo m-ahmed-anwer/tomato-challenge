@@ -1,13 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
   ScrollView,
   TextInput,
-  TouchableOpacity,
   StyleSheet,
-  Dimensions,
   Image,
+  Alert,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Icons from "react-native-vector-icons/MaterialIcons";
@@ -17,6 +16,24 @@ import { LinearGradient } from "expo-linear-gradient";
 
 export default function Login() {
   const navigation = useNavigation();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+      Alert.alert("Invalid Email", "Please enter a valid email address.");
+      return;
+    }
+    if (!password) {
+      Alert.alert("Password Required", "Please enter your password.");
+      return;
+    }
+
+    console.log({ email, password });
+  };
+
   return (
     <ScrollView
       contentContainerStyle={{ flexGrow: 1 }}
@@ -25,12 +42,18 @@ export default function Login() {
       bounces={false}
     >
       <LinearGradient
-        colors={["#00d2ff", "#0aa2ff", "#55d2ff"]}
-        style={{ height: "100%", alignItems: "center" }}
+        colors={["#102C57", "#101C57", "#102f57"]}
+        style={{ height: "100%" }}
       >
         <Image
-          source={require("../assets/tomato.png")}
-          style={{ width: 200, height: 200, marginTop: 20 }}
+          source={require("../assets/login.png")}
+          style={{
+            width: 200,
+            height: 200,
+            marginVertical: 50,
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
         />
         <View
           style={{
@@ -39,13 +62,12 @@ export default function Login() {
             borderRadius: 9999,
             flexDirection: "row",
             alignItems: "center",
-            marginTop: 40,
           }}
         >
           <Icons
             name="email"
             style={{
-              color: "#00d4fb",
+              color: "#102C57",
               fontSize: 25,
               marginLeft: 15,
             }}
@@ -62,6 +84,8 @@ export default function Login() {
             }}
             placeholder="Email"
             keyboardType="email-address"
+            value={email}
+            onChangeText={(text) => setEmail(text)}
           />
         </View>
         <View
@@ -77,7 +101,7 @@ export default function Login() {
           <Icon
             name="lock"
             style={{
-              color: "#00d4fb",
+              color: "#102C57",
               fontSize: 25,
               marginLeft: 15,
             }}
@@ -94,15 +118,13 @@ export default function Login() {
             }}
             placeholder="Password"
             secureTextEntry
+            value={password}
+            onChangeText={(text) => setPassword(text)}
           />
         </View>
         <ThemedButton
-          onPress={() => {
-            setTimeout(() => {
-              navigation.navigate("Signup");
-            }, 50);
-          }}
-          style={{ marginTop: 40 }}
+          onPress={handleLogin}
+          style={{ marginTop: 40, marginLeft: "auto", marginRight: "auto" }}
           name="bruce"
           type="anchor"
         >
@@ -116,20 +138,21 @@ export default function Login() {
             LOGIN
           </Text>
         </ThemedButton>
-
         <Text
           style={{
             color: "white",
             fontWeight: "bold",
             marginTop: 30,
             fontSize: 16,
+            marginLeft: "auto",
+            marginRight: "auto",
           }}
         >
           Don't have an account?{" "}
           <Text
             onPress={() => navigation.navigate("Signup")}
             style={{
-              color: "blue",
+              color: "#6798ff",
             }}
           >
             Sign Up
