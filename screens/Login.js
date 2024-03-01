@@ -19,7 +19,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(email)) {
@@ -31,7 +31,27 @@ export default function Login() {
       return;
     }
 
-    console.log({ email, password });
+    try {
+      const response = await fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        Alert.alert("Login failed");
+        return;
+      }
+
+      const data = await response.json();
+      // Store the token in AsyncStorage or state for future use
+      // AsyncStorage.setItem("token", data.token);
+      console.log("Login successful");
+    } catch (error) {
+      Alert.alert("Error creating user:", error.message);
+    }
   };
 
   return (

@@ -20,7 +20,7 @@ export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSignup = () => {
+  const handleSignup = async () => {
     if (!name) {
       Alert.alert("Name Required", "Please enter your name.");
       return;
@@ -37,7 +37,42 @@ export default function Signup() {
       return;
     }
 
-    console.log({ name, email, password });
+    try {
+      const emailCheckResponse = await fetch(
+        `http://localhost:3000/users/emailcheck/${email}`
+      );
+      if (!emailCheckResponse.ok) {
+        throw new Error("Email check failed");
+      }
+      const emailCheckData = await emailCheckResponse.json();
+
+      if (emailCheckData.exists) {
+        Alert.alert("Error", "Email already exists");
+        return;
+      }
+
+      const response = await fetch("http://localhost:3000/users/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorMessage = await response.text();
+        throw new Error(errorMessage);
+      }
+
+      const data = await response.json();
+      console.log("User created:", data);
+    } catch (error) {
+      Alert.alert("Error creating user:", error.message);
+    }
   };
 
   return (
