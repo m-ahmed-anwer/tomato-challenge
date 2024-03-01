@@ -46,8 +46,7 @@ export default function Login() {
       }
 
       const data = await response.json();
-      // Store the token in AsyncStorage or state for future use
-      // AsyncStorage.setItem("token", data.token);
+      console.log("Done");
       console.log("Login successful");
     } catch (error) {
       Alert.alert("Error creating user:", error.message);

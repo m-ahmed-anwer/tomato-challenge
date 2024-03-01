@@ -15,6 +15,7 @@
     "@react-navigation/material-bottom-tabs": "^6.2.24",
     "@react-navigation/native": "^6.1.12",
     "@react-navigation/stack": "^6.3.23",
+    "axios": "^1.6.7",
     "escape-string-regexp": "^5.0.0",
     "expo": "^50.0.7",
     "expo-blur": "^12.9.2",
