@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Image,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Icons from "react-native-vector-icons/MaterialIcons";
@@ -14,10 +15,14 @@ import { useNavigation } from "@react-navigation/native";
 import { ThemedButton } from "react-native-really-awesome-button";
 import { LinearGradient } from "expo-linear-gradient";
 
+import { AuthContext, useAuth } from "../context/AuthContext";
+
 export default function Login() {
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { setUser } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -31,8 +36,9 @@ export default function Login() {
       return;
     }
 
+    setIsLoading(true);
     try {
-      const response = await fetch("http://localhost:3000/login", {
+      const response = await fetch("http://localhost:3000/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,143 +47,163 @@ export default function Login() {
       });
 
       if (!response.ok) {
+        setIsLoading(false);
         Alert.alert("Login failed");
         return;
       }
 
       const data = await response.json();
-      console.log("Done");
-      console.log("Login successful");
+      setUser(data);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       Alert.alert("Error creating user:", error.message);
     }
   };
 
   return (
-    <ScrollView
-      contentContainerStyle={{ flexGrow: 1 }}
-      keyboardShouldPersistTaps="handled"
-      showsVerticalScrollIndicator={false}
-      bounces={false}
-    >
-      <LinearGradient
-        colors={["#102C57", "#101C57", "#102f57"]}
-        style={{ height: "100%" }}
-      >
-        <Image
-          source={require("../assets/login.png")}
-          style={{
-            width: 200,
-            height: 200,
-            marginVertical: 50,
-            marginLeft: "auto",
-            marginRight: "auto",
-          }}
-        />
+    <>
+      {isLoading ? (
         <View
           style={{
-            backgroundColor: "white",
-            marginHorizontal: 40,
-            borderRadius: 9999,
-            flexDirection: "row",
+            flex: 1,
+            height: "100%",
+            width: "100%",
+            justifyContent: "center",
             alignItems: "center",
+            justifyContent: "space-around",
+            padding: 10,
           }}
         >
-          <Icons
-            name="email"
-            style={{
-              color: "#102C57",
-              fontSize: 25,
-              marginLeft: 15,
-            }}
-          />
-          <TextInput
-            style={{
-              flex: 1,
-              marginLeft: 3,
-              height: 48,
-              fontSize: 16,
-              fontWeight: "bold",
-              color: "black",
-              paddingLeft: 12,
-            }}
-            placeholder="Email"
-            keyboardType="email-address"
-            value={email}
-            onChangeText={(text) => setEmail(text)}
-          />
+          <ActivityIndicator size="large" color="#102C57" />
         </View>
-        <View
-          style={{
-            backgroundColor: "white",
-            marginHorizontal: 40,
-            borderRadius: 9999,
-            flexDirection: "row",
-            alignItems: "center",
-            marginTop: 40,
-          }}
+      ) : (
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1 }}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+          bounces={false}
         >
-          <Icon
-            name="lock"
-            style={{
-              color: "#102C57",
-              fontSize: 25,
-              marginLeft: 15,
-            }}
-          />
-          <TextInput
-            style={{
-              flex: 1,
-              marginLeft: 3,
-              height: 48,
-              fontSize: 16,
-              fontWeight: "bold",
-              color: "black",
-              paddingLeft: 12,
-            }}
-            placeholder="Password"
-            secureTextEntry
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-          />
-        </View>
-        <ThemedButton
-          onPress={handleLogin}
-          style={{ marginTop: 40, marginLeft: "auto", marginRight: "auto" }}
-          name="bruce"
-          type="anchor"
-        >
-          <Text
-            style={{
-              color: "black",
-              fontSize: 24,
-              fontWeight: "bold",
-            }}
+          <LinearGradient
+            colors={["#102C57", "#101C57", "#102f57"]}
+            style={{ height: "100%" }}
           >
-            LOGIN
-          </Text>
-        </ThemedButton>
-        <Text
-          style={{
-            color: "white",
-            fontWeight: "bold",
-            marginTop: 30,
-            fontSize: 16,
-            marginLeft: "auto",
-            marginRight: "auto",
-          }}
-        >
-          Don't have an account?{" "}
-          <Text
-            onPress={() => navigation.navigate("Signup")}
-            style={{
-              color: "#6798ff",
-            }}
-          >
-            Sign Up
-          </Text>
-        </Text>
-      </LinearGradient>
-    </ScrollView>
+            <Image
+              source={require("../assets/login.png")}
+              style={{
+                width: 200,
+                height: 200,
+                marginVertical: 50,
+                marginLeft: "auto",
+                marginRight: "auto",
+              }}
+            />
+            <View
+              style={{
+                backgroundColor: "white",
+                marginHorizontal: 40,
+                borderRadius: 9999,
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <Icons
+                name="email"
+                style={{
+                  color: "#102C57",
+                  fontSize: 25,
+                  marginLeft: 15,
+                }}
+              />
+              <TextInput
+                style={{
+                  flex: 1,
+                  marginLeft: 3,
+                  height: 48,
+                  fontSize: 16,
+                  fontWeight: "bold",
+                  color: "black",
+                  paddingLeft: 12,
+                }}
+                placeholder="Email"
+                keyboardType="email-address"
+                value={email}
+                onChangeText={(text) => setEmail(text)}
+              />
+            </View>
+            <View
+              style={{
+                backgroundColor: "white",
+                marginHorizontal: 40,
+                borderRadius: 9999,
+                flexDirection: "row",
+                alignItems: "center",
+                marginTop: 40,
+              }}
+            >
+              <Icon
+                name="lock"
+                style={{
+                  color: "#102C57",
+                  fontSize: 25,
+                  marginLeft: 15,
+                }}
+              />
+              <TextInput
+                style={{
+                  flex: 1,
+                  marginLeft: 3,
+                  height: 48,
+                  fontSize: 16,
+                  fontWeight: "bold",
+                  color: "black",
+                  paddingLeft: 12,
+                }}
+                placeholder="Password"
+                secureTextEntry
+                value={password}
+                onChangeText={(text) => setPassword(text)}
+              />
+            </View>
+            <ThemedButton
+              onPress={handleLogin}
+              style={{ marginTop: 40, marginLeft: "auto", marginRight: "auto" }}
+              name="bruce"
+              type="anchor"
+            >
+              <Text
+                style={{
+                  color: "black",
+                  fontSize: 24,
+                  fontWeight: "bold",
+                }}
+              >
+                LOGIN
+              </Text>
+            </ThemedButton>
+            <Text
+              style={{
+                color: "white",
+                fontWeight: "bold",
+                marginTop: 30,
+                fontSize: 16,
+                marginLeft: "auto",
+                marginRight: "auto",
+              }}
+            >
+              Don't have an account?{" "}
+              <Text
+                onPress={() => navigation.navigate("Signup")}
+                style={{
+                  color: "#6798ff",
+                }}
+              >
+                Sign Up
+              </Text>
+            </Text>
+          </LinearGradient>
+        </ScrollView>
+      )}
+    </>
   );
 }

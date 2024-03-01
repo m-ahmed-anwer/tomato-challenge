@@ -8,17 +8,20 @@ import {
   Image,
   Platform,
 } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
+import { AuthContext } from "../context/AuthContext";
 
 const windowWidth = Dimensions.get("window").width;
 export default function Landing() {
   const navigation = useNavigation();
+  const { setUser } = useContext(AuthContext);
+
   return (
     <View style={{ backgroundColor: "#fcfcfd" }}>
       <Text
@@ -86,7 +89,7 @@ export default function Landing() {
         <ThemedButton
           onPress={() => {
             setTimeout(() => {
-              navigation.navigate("Login");
+              setUser("temp");
             }, 50);
           }}
           style={{ marginTop: 25 }}

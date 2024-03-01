@@ -76,7 +76,7 @@ export default function Signup() {
         `Hello ${name}`,
         "Account created successfully, Login to your account"
       );
-      console.log("User created:", data);
+
       navigation.navigate("Login");
       setIsLoading(false);
     } catch (error) {

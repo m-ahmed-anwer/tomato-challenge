@@ -8,12 +8,15 @@ import {
   SafeAreaView,
 } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import React, { useState, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import Icon from "react-native-vector-icons/Feather";
 import { useNavigation } from "@react-navigation/native";
+import { AuthContext } from "../context/AuthContext";
+import { ThemedButton } from "react-native-really-awesome-button";
 
 export default function Profile() {
   const navigation = useNavigation();
+  const { setUser, user } = useContext(AuthContext);
 
   useEffect(() => {}, []);
 
@@ -28,36 +31,71 @@ export default function Profile() {
               style={styles.img}
             />
           </View>
-
-          <View style={styles.bottom}>
-            <View style={styles.direction}>
-              <Text style={styles.txt1}> Name</Text>
-              <Text style={styles.txt2}>Ahmed Anwer</Text>
+          {user === "temp" ? (
+            <View>
+              <ThemedButton
+                onPress={() => {
+                  setTimeout(() => {
+                    setUser(null);
+                  }, 50);
+                }}
+                style={{
+                  marginTop: 160,
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                }}
+                name="bruce"
+                type="secondary"
+              >
+                <Text
+                  style={{
+                    color: "black",
+                    fontSize: 16,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Login To View Profile
+                </Text>
+              </ThemedButton>
             </View>
-            <View style={styles.direction}>
-              <Text style={styles.txt1}>E-mail</Text>
-              <Text style={styles.txt2}>ahmedanwer0094@gmail.com</Text>
-            </View>
-          </View>
-          <View
-            style={{
-              marginTop: 30,
-              marginLeft: "auto",
-              marginRight: "auto",
-            }}
-          >
-            <Text
-              style={{ fontSize: 22, fontWeight: "bold", color: "#014070" }}
-            >
-              Highest Score : 12
-            </Text>
-          </View>
-          <View style={styles.container2}>
-            <TouchableOpacity style={styles.box}>
-              <Text style={styles.text}>Log Out</Text>
-              <Icon name="log-out" style={styles.iconInner} />
-            </TouchableOpacity>
-          </View>
+          ) : (
+            <>
+              <View style={styles.bottom}>
+                <View style={styles.direction}>
+                  <Text style={styles.txt1}> Name</Text>
+                  <Text style={styles.txt2}>Ahmed Anwer</Text>
+                </View>
+                <View style={styles.direction}>
+                  <Text style={styles.txt1}>E-mail</Text>
+                  <Text style={styles.txt2}>ahmedanwer0094@gmail.com</Text>
+                </View>
+              </View>
+              <View
+                style={{
+                  marginTop: 30,
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                }}
+              >
+                <Text
+                  style={{ fontSize: 22, fontWeight: "bold", color: "#014070" }}
+                >
+                  Highest Score : 12
+                </Text>
+              </View>
+              <View style={styles.container2}>
+                <TouchableOpacity
+                  style={styles.box}
+                  onPress={() => {
+                    setUser(null);
+                  }}
+                >
+                  <Text style={styles.text}>Log Out</Text>
+                  <Icon name="log-out" style={styles.iconInner} />
+                </TouchableOpacity>
+              </View>
+            </>
+          )}
         </View>
       </View>
     </View>
