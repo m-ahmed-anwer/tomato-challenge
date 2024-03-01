@@ -42,7 +42,6 @@ export default function Landing() {
             >
               <Text
                 style={{
-                  fontFamily: "sans-serif",
                   color: "black",
                   fontSize: 18,
                   fontWeight: "bold",
@@ -63,7 +62,6 @@ export default function Landing() {
             >
               <Text
                 style={{
-                  fontFamily: "sans-serif",
                   color: "black",
                   fontSize: 18,
                   fontWeight: "bold",
@@ -85,7 +83,6 @@ export default function Landing() {
             >
               <Text
                 style={{
-                  fontFamily: "sans-serif",
                   color: "black",
                   fontSize: 17,
                   fontWeight: "bold",
@@ -109,19 +106,16 @@ const styles = StyleSheet.create({
   title1: {
     fontSize: 50,
     fontWeight: "600",
-    fontFamily: "Hiragino Sans",
   },
   title2: {
     fontSize: 40,
     fontWeight: "500",
-    fontFamily: "Futura",
   },
   title3: {
     marginLeft: -30,
     fontSize: 40,
     transform: [{ rotate: "-90deg" }],
     fontWeight: "600",
-    fontFamily: "Noteworthy",
   },
   firstCon: {
     height: "90%",

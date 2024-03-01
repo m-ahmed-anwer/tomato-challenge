@@ -34,7 +34,7 @@ export default function Leaderboard() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Top Scores Users</Text>
+      <Text style={styles.title}>High Score Users</Text>
       <FlatList
         data={data}
         renderItem={({ item }) => (

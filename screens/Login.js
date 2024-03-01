@@ -108,7 +108,6 @@ export default function Login() {
         >
           <Text
             style={{
-              fontFamily: "sans-serif",
               color: "black",
               fontSize: 24,
               fontWeight: "bold",
@@ -123,7 +122,7 @@ export default function Login() {
             color: "white",
             fontWeight: "bold",
             marginTop: 30,
-            fontSize: 18,
+            fontSize: 16,
           }}
         >
           Don't have an account?{" "}

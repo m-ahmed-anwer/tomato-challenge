@@ -1,4 +1,3 @@
-import { BlurView } from "expo-blur";
 import React from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Icons from "react-native-vector-icons/Entypo";
@@ -35,7 +34,7 @@ const AuthTab = () => {
           headerTitleStyle: {
             fontWeight: "bold",
             fontSize: 26,
-            fontFamily: "sans-serif",
+
             color: "#2e2e2e",
           },
           headerBackTitleVisible: false,
@@ -59,6 +58,7 @@ const AuthTab = () => {
             <Icon.Button
               name="arrow-left"
               size={25}
+              style={{ paddingLeft: 20 }}
               backgroundColor="#00d4fb"
               onPress={() => navigation.navigate("Landing")}
             />
@@ -80,6 +80,7 @@ const AuthTab = () => {
               name="arrow-left"
               size={25}
               backgroundColor="#00d4fb"
+              style={{ paddingLeft: 20 }}
               onPress={() => navigation.navigate("Landing")}
             />
           ),

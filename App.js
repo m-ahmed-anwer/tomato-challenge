@@ -7,7 +7,7 @@ export default function App() {
   return (
     <AuthProvider>
       <AppNav />
-      {/* <StatusBar style="auto" /> */}
+      <StatusBar style="auto" />
     </AuthProvider>
   );
 }

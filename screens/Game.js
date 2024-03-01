@@ -80,7 +80,6 @@ export default function Game() {
           style={{
             flex: 1,
             alignItems: "center",
-            marginTop: 22,
             backgroundColor: "#F8F0E5",
           }}
         >
@@ -88,6 +87,8 @@ export default function Game() {
             style={{
               fontSize: 24,
               fontWeight: "900",
+              marginBottom: 10,
+              marginTop: Platform.OS === "ios" ? 10 : 40,
               color: "#102C57",
               marginBottom: 10,
               marginLeft: "auto",
@@ -98,21 +99,27 @@ export default function Game() {
           </Text>
           <View
             style={{
-              height: 400,
+              height: 500,
               backgroundColor: "white",
               width: "80%",
               marginLeft: "auto",
               marginRight: "auto",
               borderRadius: 50,
+              marginTop: 60,
             }}
           >
+            <Image
+              source={require("../assets/ribbon.png")}
+              style={{ marginLeft: "auto", marginRight: "auto", marginTop: 30 }}
+            />
             <Text
               style={{
                 fontSize: 22,
-                fontWeight: "600",
+                fontWeight: "800",
                 color: "#102C57",
                 marginLeft: "auto",
                 marginRight: "auto",
+                marginTop: 30,
               }}
             >
               Congratulations
@@ -120,7 +127,7 @@ export default function Game() {
             <Text
               style={{
                 fontSize: 20,
-                fontWeight: "500",
+                fontWeight: "600",
                 color: "#102C57",
                 marginTop: 30,
                 marginLeft: "auto",
@@ -137,11 +144,10 @@ export default function Game() {
               }}
               style={{ marginTop: 50, marginLeft: "auto", marginRight: "auto" }}
               name="bruce"
-              type="anchor"
+              type="secondary"
             >
               <Text
                 style={{
-                  fontFamily: "sans-serif",
                   color: "black",
                   fontSize: 20,
                   fontWeight: "bold",
@@ -150,9 +156,6 @@ export default function Game() {
                 Restart Game
               </Text>
             </ThemedButton>
-            <Pressable onPress={() => setModalVisible(!modalVisible)}>
-              <Text>Restart the Game</Text>
-            </Pressable>
           </View>
         </SafeAreaView>
       </Modal>
@@ -184,25 +187,26 @@ export default function Game() {
             >
               <View
                 style={{
-                  //flex: 1,
+                  width: "100%",
                   flexDirection: "row",
                   justifyContent: "space-between",
-                  paddingHorizontal: 20,
-                  marginTop: 30,
+                  marginTop: 20,
                 }}
               >
-                <Text style={{ fontSize: 22, fontWeight: "bold" }}>
+                <Text
+                  style={{ fontSize: 22, fontWeight: "bold", marginLeft: 30 }}
+                >
                   Score : {game.score && game.score}
                 </Text>
                 <Text
-                  style={{ fontSize: 22, fontWeight: "bold", marginLeft: 30 }}
+                  style={{ fontSize: 22, fontWeight: "bold", marginRight: 30 }}
                 >
                   Timer : {seconds}s
                 </Text>
               </View>
               <View
                 style={{
-                  marginTop: 30,
+                  marginTop: 25,
                   marginLeft: "auto",
                   marginRight: "auto",
                 }}
@@ -223,46 +227,48 @@ export default function Game() {
                 style={{
                   color: "#00c900",
                   fontWeight: "bold",
-                  marginTop: 20,
+                  marginTop: 25,
                   fontSize: 18,
                 }}
               >
                 Its Correct ✅
               </Text>
-              <Text
+              {/* <Text
                 style={{
                   color: "#ef4444",
                   fontWeight: "bold",
-                  marginTop: 20,
+                  marginTop: 25,
                   fontSize: 18,
                 }}
               >
                 The Correct Answer is {game.api && game.api.solution}
-              </Text>
+              </Text> */}
 
               <Text
                 style={{
                   color: "black",
                   fontWeight: "bold",
-                  marginTop: 20,
+                  marginVertical: 15,
                   fontSize: 18,
                 }}
               >
                 Select the Answer
               </Text>
-              {/* <Picker
-          style={{
-            backgroundColor: "#EDEDED",
-            borderRadius: 9000,
-            borderBottomWidth: 10,
-            borderBottomColor: "#5f5f5f",
-          }}
-          selectedValue={value}
-          onValueChange={(itemValue) => setValue(itemValue)}
-          itemStyle={{ height: 135 }}
-        >
-          {data}
-        </Picker> */}
+
+              <Picker
+                style={{
+                  backgroundColor: "#eFeFeF",
+                  width: "80%",
+                  borderWidth: 1,
+                  borderRadius: 20,
+                  borderColor: "#5f5f5f",
+                }}
+                selectedValue={value}
+                onValueChange={(itemValue) => setValue(itemValue)}
+                itemStyle={{ height: 120 }}
+              >
+                {data}
+              </Picker>
 
               <ThemedButton
                 onPress={() => {
@@ -270,7 +276,7 @@ export default function Game() {
                   //increaseScore();
                   //navigation.navigate("");
                 }}
-                style={{ marginTop: 40 }}
+                style={{ marginTop: 25 }}
                 name="bruce"
                 type="anchor"
               >
