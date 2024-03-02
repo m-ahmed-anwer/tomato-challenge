@@ -1,27 +1,59 @@
 import { Picker } from "@react-native-picker/picker";
-
 import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
   ScrollView,
-  TextInput,
-  TouchableOpacity,
-  Dimensions,
   Image,
   SafeAreaView,
   Platform,
   Modal,
-  Pressable,
+  ActivityIndicator,
 } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome5";
-import Icons from "react-native-vector-icons/MaterialIcons";
 import { useNavigation } from "@react-navigation/native";
 import { ThemedButton } from "react-native-really-awesome-button";
 import { LinearGradient } from "expo-linear-gradient";
 
+//Singleton Pattern
+class Score {
+  constructor() {
+    if (!Score.instance) {
+      this.score = 0;
+      Score.instance = this;
+    }
+  }
+  increaseScore() {
+    this.score++;
+  }
+  getScore() {
+    return this.score;
+  }
+  setScore(score) {
+    this.score = score;
+  }
+}
+
+//Design Pattern
+class Heart {
+  constructor() {
+    if (!Heart.instance) {
+      this.lives = 3;
+      Heart.instance = this;
+    }
+  }
+  decreaseLives() {
+    this.lives--;
+  }
+  setLives() {
+    this.lives = 3;
+  }
+}
+
+const score = new Score();
+const heart = new Heart();
+
 export default function Game() {
-  const number = [0, 1, 2, 4, 5, 6, 7, 8, 9];
+  const number = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   const navigation = useNavigation();
   const [value, setValue] = useState(1);
   const [game, setGame] = useState({
@@ -30,6 +62,9 @@ export default function Game() {
   });
   const [seconds, setSeconds] = useState();
   const [modalVisible, setModalVisible] = useState(false);
+  const [checkValue, setCheckValue] = useState(0);
+  const [correct, setCorrect] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -51,15 +86,29 @@ export default function Game() {
       console.error("Error:", error);
     }
   };
+
   useEffect(() => {
     fetchData();
-  }, [game.score]);
+  }, []);
 
-  const increaseScore = () => {
-    setGame((prevState) => ({
-      ...prevState,
-      score: prevState.score + 1,
-    }));
+  const checkAnswer = () => {
+    setIsLoading(true);
+    setCheckValue(game.api.solution);
+
+    if (parseInt(game.api.solution) === parseInt(value)) {
+      setCorrect(true);
+      score.increaseScore();
+    } else {
+      heart.decreaseLives();
+      setCorrect(false);
+    }
+    if (heart.lives === 0) {
+      setModalVisible(true);
+      // navigation.navigate("Profile");
+    }
+
+    fetchData();
+    setIsLoading(false);
   };
 
   const data = number.map((item) => (
@@ -108,10 +157,19 @@ export default function Game() {
               marginTop: 60,
             }}
           >
-            <Image
-              source={require("../assets/ribbon.png")}
-              style={{ marginLeft: "auto", marginRight: "auto", marginTop: 30 }}
-            />
+            {isLoading ? (
+              <ActivityIndicator size="large" color="#102C57" />
+            ) : (
+              <Image
+                source={require("../assets/ribbon.png")}
+                style={{
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  marginTop: 30,
+                }}
+              />
+            )}
+
             <Text
               style={{
                 fontSize: 22,
@@ -134,11 +192,14 @@ export default function Game() {
                 marginRight: "auto",
               }}
             >
-              Your Final Score is 12
+              Your Final Score is {score.score}
             </Text>
             <ThemedButton
               onPress={() => {
                 setTimeout(() => {
+                  score.setScore(0);
+                  heart.setLives();
+                  fetchData();
                   setModalVisible(!modalVisible);
                 }, 50);
               }}
@@ -196,7 +257,7 @@ export default function Game() {
                 <Text
                   style={{ fontSize: 22, fontWeight: "bold", marginLeft: 30 }}
                 >
-                  Score : {game.score && game.score}
+                  Score : {score.score}
                 </Text>
                 <Text
                   style={{ fontSize: 22, fontWeight: "bold", marginRight: 30 }}
@@ -212,7 +273,7 @@ export default function Game() {
                 }}
               >
                 <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-                  Remaining Lives : ❤️❤️❤️
+                  Remaining Lives :{"❤️".repeat(heart.lives)}
                 </Text>
               </View>
 
@@ -222,27 +283,31 @@ export default function Game() {
                 }}
                 style={{ width: 340, height: 180, marginTop: 20 }}
               />
+              {correct && (
+                <Text
+                  style={{
+                    color: "#00c900",
+                    fontWeight: "bold",
+                    marginTop: 25,
+                    fontSize: 18,
+                  }}
+                >
+                  Its Correct ✅
+                </Text>
+              )}
 
-              <Text
-                style={{
-                  color: "#00c900",
-                  fontWeight: "bold",
-                  marginTop: 25,
-                  fontSize: 18,
-                }}
-              >
-                Its Correct ✅
-              </Text>
-              {/* <Text
-                style={{
-                  color: "#ef4444",
-                  fontWeight: "bold",
-                  marginTop: 25,
-                  fontSize: 18,
-                }}
-              >
-                The Correct Answer is {game.api && game.api.solution}
-              </Text> */}
+              {!correct && (
+                <Text
+                  style={{
+                    color: "#ef4444",
+                    fontWeight: "bold",
+                    marginTop: 25,
+                    fontSize: 18,
+                  }}
+                >
+                  The Correct Answer is {checkValue}
+                </Text>
+              )}
 
               <Text
                 style={{
@@ -264,7 +329,9 @@ export default function Game() {
                   borderColor: "#5f5f5f",
                 }}
                 selectedValue={value}
-                onValueChange={(itemValue) => setValue(itemValue)}
+                onValueChange={(itemValue) => {
+                  setValue(itemValue);
+                }}
                 itemStyle={{ height: 120 }}
               >
                 {data}
@@ -272,7 +339,8 @@ export default function Game() {
 
               <ThemedButton
                 onPress={() => {
-                  setModalVisible(true);
+                  checkAnswer();
+                  // setModalVisible(true);
                   //increaseScore();
                   //navigation.navigate("");
                 }}

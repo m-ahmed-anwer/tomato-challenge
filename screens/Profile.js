@@ -32,42 +32,36 @@ export default function Profile() {
             />
           </View>
           {user === "temp" ? (
-            <View>
-              <ThemedButton
-                onPress={() => {
-                  setTimeout(() => {
-                    setUser(null);
-                  }, 50);
-                }}
-                style={{
-                  marginTop: 160,
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                }}
-                name="bruce"
-                type="secondary"
-              >
-                <Text
-                  style={{
-                    color: "black",
-                    fontSize: 16,
-                    fontWeight: "bold",
-                  }}
-                >
-                  Login To View Profile
-                </Text>
-              </ThemedButton>
-            </View>
+            <TouchableOpacity
+              style={{
+                backgroundColor: "#102C57",
+                flexDirection: "row",
+                height: 50,
+                alignItems: "center",
+                justifyContent: "space-between",
+                paddingHorizontal: 30,
+                marginLeft: 30,
+                marginRight: 30,
+                borderRadius: 20,
+                marginTop: 100,
+              }}
+              onPress={() => {
+                setUser(null);
+              }}
+            >
+              <Text style={styles.text}>Log In to an Account</Text>
+              <Icon name="log-in" style={styles.iconInner} />
+            </TouchableOpacity>
           ) : (
             <>
               <View style={styles.bottom}>
                 <View style={styles.direction}>
                   <Text style={styles.txt1}> Name</Text>
-                  <Text style={styles.txt2}>Ahmed Anwer</Text>
+                  <Text style={styles.txt2}>{user && user.name}</Text>
                 </View>
                 <View style={styles.direction}>
                   <Text style={styles.txt1}>E-mail</Text>
-                  <Text style={styles.txt2}>ahmedanwer0094@gmail.com</Text>
+                  <Text style={styles.txt2}>{user && user.email}</Text>
                 </View>
               </View>
               <View
