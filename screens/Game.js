@@ -60,7 +60,7 @@ export default function Game() {
     score: 0,
     api: null,
   });
-  const [seconds, setSeconds] = useState();
+  const [seconds, setSeconds] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
   const [checkValue, setCheckValue] = useState(0);
   const [correct, setCorrect] = useState(false);
@@ -68,8 +68,17 @@ export default function Game() {
 
   useEffect(() => {
     const interval = setInterval(() => {
+      if (heart.lives === 0) {
+        setModalVisible(true);
+        return;
+      }
+
       if (seconds > 0) {
         setSeconds((prevSeconds) => prevSeconds - 1);
+      } else if (seconds < 0) {
+        heart.decreaseLives();
+        fetchData();
+        setSeconds(60);
       }
     }, 1000);
 

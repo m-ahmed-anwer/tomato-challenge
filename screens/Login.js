@@ -57,7 +57,7 @@ export default function Login() {
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
-      Alert.alert("Error creating user:", error.message);
+      Alert.alert("Error :( ", error.message);
     }
   };
 
@@ -102,7 +102,7 @@ export default function Login() {
               style={{
                 backgroundColor: "white",
                 marginHorizontal: 40,
-                borderRadius: 9999,
+                borderRadius: 15,
                 flexDirection: "row",
                 alignItems: "center",
               }}
@@ -135,7 +135,7 @@ export default function Login() {
               style={{
                 backgroundColor: "white",
                 marginHorizontal: 40,
-                borderRadius: 9999,
+                borderRadius: 15,
                 flexDirection: "row",
                 alignItems: "center",
                 marginTop: 40,

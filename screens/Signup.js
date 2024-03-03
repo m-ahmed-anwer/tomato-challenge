@@ -125,7 +125,7 @@ export default function Signup() {
               style={{
                 backgroundColor: "white",
                 marginHorizontal: 40,
-                borderRadius: 9999,
+                borderRadius: 15,
                 flexDirection: "row",
                 alignItems: "center",
               }}
@@ -158,7 +158,7 @@ export default function Signup() {
               style={{
                 backgroundColor: "white",
                 marginHorizontal: 40,
-                borderRadius: 9999,
+                borderRadius: 15,
                 flexDirection: "row",
                 alignItems: "center",
                 marginTop: 40,
@@ -192,7 +192,7 @@ export default function Signup() {
               style={{
                 backgroundColor: "white",
                 marginHorizontal: 40,
-                borderRadius: 9999,
+                borderRadius: 15,
                 flexDirection: "row",
                 alignItems: "center",
                 marginTop: 40,
