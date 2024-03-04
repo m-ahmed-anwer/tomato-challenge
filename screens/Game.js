@@ -13,6 +13,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { ThemedButton } from "react-native-really-awesome-button";
 import { LinearGradient } from "expo-linear-gradient";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 //Singleton Pattern
 class Score {
@@ -54,10 +55,9 @@ const heart = new Heart();
 
 export default function Game() {
   const number = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-  const navigation = useNavigation();
+
   const [value, setValue] = useState(1);
   const [game, setGame] = useState({
-    score: 0,
     api: null,
   });
   const [seconds, setSeconds] = useState(0);
@@ -65,59 +65,60 @@ export default function Game() {
   const [checkValue, setCheckValue] = useState(0);
   const [correct, setCorrect] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [initial, setInitial] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (heart.lives === 0) {
-        setModalVisible(true);
-        return;
-      }
-
-      if (seconds > 0) {
-        setSeconds((prevSeconds) => prevSeconds - 1);
-      } else if (seconds < 0) {
-        heart.decreaseLives();
-        fetchData();
-        setSeconds(60);
-      }
+      setSeconds((seconds) => {
+        if (seconds < 0) {
+          clearInterval(interval); // Stop the timer when it reaches 0
+          return 0; // Set timer to 0
+        } else {
+          return seconds - 1; // Decrement timer by 1 second
+        }
+      });
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [seconds]);
+  }, []);
+
+  useEffect(() => {
+    setInitial(false);
+    fetchData();
+  }, []);
 
   const fetchData = async () => {
     try {
+      setIsLoading(true);
       const response = await fetch("https://marcconrad.com/uob/tomato/api.php");
       const data = await response.json();
       setGame({ ...game, api: data });
       setSeconds(60);
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       console.error("Error:", error);
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   const checkAnswer = () => {
-    setIsLoading(true);
-    setCheckValue(game.api.solution);
-
     if (parseInt(game.api.solution) === parseInt(value)) {
+      setSeconds(60);
       setCorrect(true);
       score.increaseScore();
     } else {
+      setCheckValue(game.api.solution);
       heart.decreaseLives();
       setCorrect(false);
     }
     if (heart.lives === 0) {
+      setInitial(false);
       setModalVisible(true);
-      // navigation.navigate("Profile");
+      return;
     }
 
+    setInitial(true);
     fetchData();
-    setIsLoading(false);
   };
 
   const data = number.map((item) => (
@@ -166,18 +167,14 @@ export default function Game() {
               marginTop: 60,
             }}
           >
-            {isLoading ? (
-              <ActivityIndicator size="large" color="#102C57" />
-            ) : (
-              <Image
-                source={require("../assets/ribbon.png")}
-                style={{
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                  marginTop: 30,
-                }}
-              />
-            )}
+            <Image
+              source={require("../assets/ribbon.png")}
+              style={{
+                marginLeft: "auto",
+                marginRight: "auto",
+                marginTop: 30,
+              }}
+            />
 
             <Text
               style={{
@@ -285,37 +282,49 @@ export default function Game() {
                   Remaining Lives :{"❤️".repeat(heart.lives)}
                 </Text>
               </View>
-
-              <Image
-                source={{
-                  uri: game.api && game.api.question ? game.api.question : null,
-                }}
-                style={{ width: 340, height: 180, marginTop: 20 }}
-              />
-              {correct && (
-                <Text
-                  style={{
-                    color: "#00c900",
-                    fontWeight: "bold",
-                    marginTop: 25,
-                    fontSize: 18,
+              {isLoading ? (
+                <ActivityIndicator
+                  size="large"
+                  color="#102C57"
+                  style={{ marginVertical: 82 }}
+                />
+              ) : (
+                <Image
+                  source={{
+                    uri:
+                      game.api && game.api.question ? game.api.question : null,
                   }}
-                >
-                  Its Correct ✅
-                </Text>
+                  style={{ width: 340, height: 180, marginTop: 20 }}
+                />
               )}
+              {initial && (
+                <>
+                  {correct && (
+                    <Text
+                      style={{
+                        color: "#00c900",
+                        fontWeight: "bold",
+                        marginTop: 20,
+                        fontSize: 18,
+                      }}
+                    >
+                      Its Correct ✅
+                    </Text>
+                  )}
 
-              {!correct && (
-                <Text
-                  style={{
-                    color: "#ef4444",
-                    fontWeight: "bold",
-                    marginTop: 25,
-                    fontSize: 18,
-                  }}
-                >
-                  The Correct Answer is {checkValue}
-                </Text>
+                  {!correct && (
+                    <Text
+                      style={{
+                        color: "#ef4444",
+                        fontWeight: "bold",
+                        marginTop: 20,
+                        fontSize: 18,
+                      }}
+                    >
+                      The Correct Answer is {checkValue}
+                    </Text>
+                  )}
+                </>
               )}
 
               <Text
@@ -323,6 +332,7 @@ export default function Game() {
                   color: "black",
                   fontWeight: "bold",
                   marginVertical: 15,
+
                   fontSize: 18,
                 }}
               >

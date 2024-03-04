@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   View,
   Text,
@@ -14,7 +14,7 @@ import Icons from "react-native-vector-icons/MaterialIcons";
 import { useNavigation } from "@react-navigation/native";
 import { ThemedButton } from "react-native-really-awesome-button";
 import { LinearGradient } from "expo-linear-gradient";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext, useAuth } from "../context/AuthContext";
 
 export default function Login() {
@@ -53,7 +53,8 @@ export default function Login() {
       }
 
       const data = await response.json();
-      setUser(data);
+      await AsyncStorage.setItem("token", data.token);
+      setUser(data.user);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);

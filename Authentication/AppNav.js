@@ -1,19 +1,21 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { ActivityIndicator, SafeAreaView, View } from "react-native";
 import { AppTab, AuthTab } from "../Tab";
 import { AuthContext } from "../context/AuthContext";
 
 export default function AppNav() {
-  const { user } = useContext(AuthContext);
-
-  const isLoading = true;
+  const { user, setUser } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(false);
 
   if (isLoading) {
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <ActivityIndicator size="large" />
-    </View>;
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="small" />
+      </View>
+    );
   }
+
   return (
     <NavigationContainer>
       {user === null ? <AuthTab /> : <AppTab />}

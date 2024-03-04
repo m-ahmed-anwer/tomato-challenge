@@ -12,11 +12,23 @@ import React, { useContext, useEffect } from "react";
 import Icon from "react-native-vector-icons/Feather";
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../context/AuthContext";
-import { ThemedButton } from "react-native-really-awesome-button";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Profile() {
   const navigation = useNavigation();
   const { setUser, user } = useContext(AuthContext);
+
+  const logOut = () => {
+    const clearToken = async () => {
+      try {
+        await AsyncStorage.removeItem("token");
+        setUser(null);
+      } catch (error) {
+        console.error("Failed to clear token:", error);
+      }
+    };
+    clearToken();
+  };
 
   useEffect(() => {}, []);
 
@@ -81,7 +93,7 @@ export default function Profile() {
                 <TouchableOpacity
                   style={styles.box}
                   onPress={() => {
-                    setUser(null);
+                    logOut();
                   }}
                 >
                   <Text style={styles.text}>Log Out</Text>
