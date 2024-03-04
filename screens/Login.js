@@ -48,14 +48,13 @@ export default function Login() {
 
       if (!response.ok) {
         setIsLoading(false);
-        Alert.alert("Login failed");
+        Alert.alert("Login failed", "No user Found :( ");
         return;
       }
 
       const data = await response.json();
 
       await AsyncStorage.setItem("token", JSON.stringify(data.token));
-      console.log(data.token);
       setUser(data.user);
       setIsLoading(false);
     } catch (error) {

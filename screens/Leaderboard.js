@@ -11,36 +11,62 @@ import LeaderboardUsers from "../components/leaderboard.users";
 
 export default function Leaderboard() {
   const [refreshing, setRefreshing] = useState(false);
-  const [data, setData] = useState([
-    { id: 1, name: "Ahmed", score: 12 },
-    { id: 2, name: "Ahmed", score: 15 },
-    { id: 3, name: "Ahmed", score: 22 },
-    { id: 4, name: "Ahmed", score: 31 },
-    { id: 5, name: "Ahmed", score: 42 },
-    { id: 6, name: "Ahmed", score: 2 },
-    { id: 7, name: "Ahmed", score: 21 },
-    { id: 8, name: "Ahmed", score: 34 },
-  ]);
+  const [data, setData] = useState([]);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/users/score");
+      if (!response.ok) {
+        throw new Error("Network request failed");
+      }
+      const result = await response.json();
+      // Sort the data based on the score
+      result.sort((a, b) => b.score - a.score);
+      setData(result);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      // Show an alert to the user
+      alert("Failed to fetch data. Please try again.");
+    } finally {
+      setRefreshing(false);
+    }
+  };
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    try {
+      const response = await fetch("http://localhost:3000/users/score");
+      if (!response.ok) {
+        throw new Error("Network request failed");
+      }
+      const result = await response.json();
+      // Sort the data based on the score
+      result.sort((a, b) => b.score - a.score);
+      setData(result);
+    } catch (error) {
+      console.error("Error refreshing data:", error);
+      // Show an alert to the user
+      alert("Failed to refresh data. Please try again.");
+    } finally {
+      setRefreshing(false);
+    }
+  };
 
   useEffect(() => {
-    console.log("HI");
+    fetchData();
   }, [refreshing]);
-
-  const onRefresh = () => {
-    setRefreshing(true);
-    // Add your refresh logic here
-    setRefreshing(false);
-  };
 
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>High Score Users</Text>
       <FlatList
         data={data}
-        renderItem={({ item }) => (
-          <LeaderboardUsers key={item.id} item={item} />
+        renderItem={({ item, index }) => (
+          <LeaderboardUsers item={item} index={index} />
         )}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item, index) =>
+          item.id ? item.id.toString() : index.toString()
+        }
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }

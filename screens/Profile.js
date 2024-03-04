@@ -86,7 +86,7 @@ export default function Profile() {
                 <Text
                   style={{ fontSize: 22, fontWeight: "bold", color: "#014070" }}
                 >
-                  Highest Score : 12
+                  Highest Score : {user && user.score}
                 </Text>
               </View>
               <View style={styles.container2}>
