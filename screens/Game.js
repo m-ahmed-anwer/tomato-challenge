@@ -70,20 +70,20 @@ export default function Game() {
   const [correct, setCorrect] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [initial, setInitial] = useState(false);
-  const [timerActive, setTimerActive] = useState(false); 
+  const [timerActive, setTimerActive] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
       if (timerActive && seconds > 0) {
-        setSeconds(seconds - 1);
+        setSeconds((prevSeconds) => prevSeconds - 1); // Use the previous state to update seconds
       } else if (timerActive && seconds === 0) {
         heart.decreaseLives();
-        setSeconds(10); // Reset the timer to 10 seconds
+        setSeconds(11); // Reset the timer to 11 seconds
       }
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [seconds, timerActive]);
+  }, [seconds, timerActive, heart]);
 
   const reduceSeconds = () => {
     if (seconds > 0) {
@@ -97,18 +97,19 @@ export default function Game() {
       setRulesCheck(false);
       setInitial(false);
       fetchData();
+      setSeconds(1);
       setTimerActive(true); // Start the timer when the rule button is pressed
       reduceSeconds(); // Call reduceSeconds to reduce seconds when the rule button is pressed
     }, 50);
   };
 
   const fetchData = async () => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
       const response = await fetch("https://marcconrad.com/uob/tomato/api.php");
       const data = await response.json();
       setGame({ ...game, api: data });
-      setSeconds(10);
+      setSeconds(11);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
