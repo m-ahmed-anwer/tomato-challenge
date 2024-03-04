@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 export const AuthContext = createContext({
   user: null,
@@ -13,29 +14,13 @@ export const AuthProvider = ({ children }) => {
     const checkToken = async () => {
       try {
         const token = await AsyncStorage.getItem("token");
-        console.log(token);
-        if (token) {
-          // Perform automatic login using the token
-          const response = await fetch(
-            "http://localhost:3000/users/verifyToken",
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `JWT ${token}`,
-              },
-            }
-          );
 
-          if (response.ok) {
-            const data = await response.json();
-            console.log(data);
-            setUser(data);
-          } else {
-            // Token is invalid or expired
-            await AsyncStorage.removeItem("authToken");
-            setUser(null);
-          }
+        if (token) {
+          const response = await fetch(
+            "http://localhost:3000/users/verifyToken/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZTQ4ZWQ0MTM4ZDZiM2VmNGQ2MDdjNyIsImlhdCI6MTcwOTU0MTk1MCwiZXhwIjoxNzA5ODAxMTUwfQ.La1XJSFg1m7VrpoKT7KPijNcc6G6muZOb0Abh0zX7DE"
+          );
+          const data = await response.json();
+          setUser(data.user);
         }
       } catch (error) {
         console.error("Error checking token:", error);

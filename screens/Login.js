@@ -53,7 +53,9 @@ export default function Login() {
       }
 
       const data = await response.json();
-      await AsyncStorage.setItem("token", data.token);
+
+      await AsyncStorage.setItem("token", JSON.stringify(data.token));
+      console.log(data.token);
       setUser(data.user);
       setIsLoading(false);
     } catch (error) {
