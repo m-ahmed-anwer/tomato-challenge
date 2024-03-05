@@ -7,14 +7,10 @@ import {
   Image,
   SafeAreaView,
   Platform,
-  Modal,
   ActivityIndicator,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import { ThemedButton } from "react-native-really-awesome-button";
 import { LinearGradient } from "expo-linear-gradient";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import Rule from "../components/Modal.rule";
 import RuleModal from "../components/Modal.rule";
 import ScoreModal from "../components/Modal.score";
 import { AuthContext } from "../context/AuthContext";

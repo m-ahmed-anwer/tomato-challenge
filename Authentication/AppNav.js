@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { ActivityIndicator, SafeAreaView, View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import { AppTab, AuthTab } from "../Tab";
 import { AuthContext } from "../context/AuthContext";
 

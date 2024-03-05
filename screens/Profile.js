@@ -5,7 +5,6 @@ import {
   Image,
   TouchableOpacity,
   Platform,
-  SafeAreaView,
 } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import React, { useContext, useEffect } from "react";

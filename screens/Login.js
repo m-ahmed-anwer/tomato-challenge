@@ -1,10 +1,9 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
   ScrollView,
   TextInput,
-  StyleSheet,
   Image,
   Alert,
   ActivityIndicator,

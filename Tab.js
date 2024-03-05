@@ -1,6 +1,5 @@
 import React from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
-import Icons from "react-native-vector-icons/Entypo";
 import FontAwesome6 from "react-native-vector-icons/FontAwesome6";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import Landing from "./screens/Landing";
