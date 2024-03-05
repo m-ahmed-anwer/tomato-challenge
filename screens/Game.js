@@ -1,5 +1,5 @@
 import { Picker } from "@react-native-picker/picker";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import {
   View,
   Text,
@@ -17,6 +17,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Rule from "../components/Modal.rule";
 import RuleModal from "../components/Modal.rule";
 import ScoreModal from "../components/Modal.score";
+import { AuthContext } from "../context/AuthContext";
 
 //Singleton Pattern
 class Score {
@@ -71,6 +72,9 @@ export default function Game() {
   const [isLoading, setIsLoading] = useState(false);
   const [initial, setInitial] = useState(false);
   const [timerActive, setTimerActive] = useState(false);
+  const { user } = useContext(AuthContext);
+
+  console.log(user.score);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -78,7 +82,7 @@ export default function Game() {
         setSeconds((prevSeconds) => prevSeconds - 1); // Use the previous state to update seconds
       } else if (timerActive && seconds === 0) {
         heart.decreaseLives();
-        setSeconds(11); // Reset the timer to 11 seconds
+        setSeconds(60); // Reset the timer to 60 seconds
       }
     }, 1000);
 
@@ -109,7 +113,7 @@ export default function Game() {
       const response = await fetch("https://marcconrad.com/uob/tomato/api.php");
       const data = await response.json();
       setGame({ ...game, api: data });
-      setSeconds(11);
+      setSeconds(60);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);

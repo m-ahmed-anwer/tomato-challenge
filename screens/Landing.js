@@ -90,7 +90,7 @@ export default function Landing() {
           onPress={() => {
             setTimeout(() => {
               setUser("temp");
-            }, 50);
+            }, 60);
           }}
           style={{ marginTop: 25 }}
           name="bruce"
