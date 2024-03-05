@@ -58,17 +58,46 @@ export default function Game() {
   const [rulesCheck, setRulesCheck] = useState(true);
   const [ruleModalVisible, setRuleModalVisible] = useState(true);
   const [value, setValue] = useState(1);
-  const [game, setGame] = useState({
-    api: null,
-  });
-  const [seconds, setSeconds] = useState(1);
+  const [game, setGame] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
   const [checkValue, setCheckValue] = useState(0);
   const [correct, setCorrect] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [initial, setInitial] = useState(false);
-  const [timerActive, setTimerActive] = useState(false);
   const { user, setUser } = useContext(AuthContext);
+  const [timer, setTimer] = useState(60);
+  const [isRunning, setIsRunning] = useState(false);
+  const intervalRef = useRef(null);
+
+  const startTimer = () => {
+    if (!isRunning) {
+      intervalRef.current = setInterval(() => {
+        setTimer((prevTimer) => {
+          if (prevTimer > 0) {
+            return prevTimer - 1;
+          } else {
+            clearInterval(intervalRef.current);
+            setIsRunning(false);
+            checkAnswer();
+            return prevTimer;
+          }
+        });
+      }, 1000);
+      setIsRunning(true);
+    }
+  };
+  const stopTimer = () => {
+    if (isRunning) {
+      clearInterval(intervalRef.current);
+      setIsRunning(false);
+    }
+  };
+
+  const resetTimer = () => {
+    setTimer(60);
+    score.setScore(0);
+    stopTimer();
+  };
 
   const updateDB = async () => {
     try {
@@ -86,30 +115,10 @@ export default function Game() {
         Alert.alert("Eror :(", "Score updating score");
         return;
       }
-
       const data = await response.json();
       setUser(data.user);
     } catch (error) {
       Alert.alert("Eror :(", error);
-    }
-  };
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (timerActive && seconds > 0) {
-        setSeconds((prevSeconds) => prevSeconds - 1); // Use the previous state to update seconds
-      } else if (timerActive && seconds === 0) {
-        heart.decreaseLives();
-        setSeconds(60); // Reset the timer to 60 seconds
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [seconds, timerActive, heart]);
-
-  const reduceSeconds = () => {
-    if (seconds > 0) {
-      setSeconds(seconds - 1);
     }
   };
 
@@ -119,9 +128,6 @@ export default function Game() {
       setRulesCheck(false);
       setInitial(false);
       fetchData();
-      setSeconds(1);
-      setTimerActive(true);
-      reduceSeconds();
     }, 50);
   };
 
@@ -130,50 +136,42 @@ export default function Game() {
     try {
       const response = await fetch("https://marcconrad.com/uob/tomato/api.php");
       const data = await response.json();
-      setGame({ ...game, api: data });
-      setSeconds(60);
+      setGame(data);
+      setTimer(60);
+      startTimer();
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
-      console.error("Error:", error);
+      Alert.alert("Eror :(", error);
     }
   };
-  useEffect(() => {
-    if (heart.lives === 0) {
-      setModalVisible(true);
-      return;
-    } else {
-      fetchData();
-    }
-  }, [heart.lives]);
 
   const checkAnswer = () => {
-    if (parseInt(game.api.solution) === parseInt(value)) {
+    stopTimer();
+    if (parseInt(game.solution) === parseInt(value)) {
       setCorrect(true);
       score.increaseScore();
       setCheckValue(null);
     } else {
-      setCheckValue(game.api.solution);
+      setCheckValue(game.solution);
       heart.decreaseLives();
       setCorrect(false);
     }
     if (heart.lives === 0) {
       setModalVisible(true);
-      setSeconds(0);
       return;
     }
-    setInitial(true);
     fetchData();
+    setInitial(true);
   };
 
   const modalButtonPress = () => {
     setTimeout(() => {
+      resetTimer();
       if (user !== "temp" && score.getScore() > user.score) {
         updateDB();
       }
-
       heart.setLives();
-      score.setScore(0);
       fetchData();
       setInitial(false);
       setModalVisible(!modalVisible);
@@ -252,7 +250,7 @@ export default function Game() {
                         marginRight: 30,
                       }}
                     >
-                      Timer : {seconds}s
+                      Timer : {timer}s
                     </Text>
                   </View>
                   <View
@@ -275,10 +273,7 @@ export default function Game() {
                   ) : (
                     <Image
                       source={{
-                        uri:
-                          game.api && game.api.question
-                            ? game.api.question
-                            : null,
+                        uri: game && game.question ? game.question : null,
                       }}
                       style={{ width: 340, height: 180, marginTop: 20 }}
                     />
