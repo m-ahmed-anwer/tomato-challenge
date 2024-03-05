@@ -72,9 +72,31 @@ export default function Game() {
   const [isLoading, setIsLoading] = useState(false);
   const [initial, setInitial] = useState(false);
   const [timerActive, setTimerActive] = useState(false);
-  const { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
 
-  console.log(user.score);
+  const updateDB = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/users/updateScore/${user._id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ score: score.getScore() }),
+        }
+      );
+      if (!response.ok) {
+        Alert.alert("Eror :(", "Score updating score");
+        return;
+      }
+
+      const data = await response.json();
+      setUser(data.user);
+    } catch (error) {
+      Alert.alert("Eror :(", error);
+    }
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -102,8 +124,8 @@ export default function Game() {
       setInitial(false);
       fetchData();
       setSeconds(1);
-      setTimerActive(true); // Start the timer when the rule button is pressed
-      reduceSeconds(); // Call reduceSeconds to reduce seconds when the rule button is pressed
+      setTimerActive(true);
+      reduceSeconds();
     }, 50);
   };
 
@@ -150,8 +172,12 @@ export default function Game() {
 
   const modalButtonPress = () => {
     setTimeout(() => {
-      score.setScore(0);
+      if (user !== "temp" && score.getScore() > user.score) {
+        updateDB();
+      }
+
       heart.setLives();
+      score.setScore(0);
       fetchData();
       setInitial(false);
       setModalVisible(!modalVisible);
