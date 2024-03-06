@@ -96,6 +96,7 @@ export default function Game() {
   const resetTimer = () => {
     setTimer(60);
     score.setScore(0);
+    heart.setLives();
     stopTimer();
   };
 
