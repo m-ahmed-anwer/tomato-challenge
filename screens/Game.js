@@ -269,14 +269,14 @@ export default function Game() {
                     <ActivityIndicator
                       size="large"
                       color="#102C57"
-                      style={{ marginVertical: 82 }}
+                      style={{ marginVertical: 90 }}
                     />
                   ) : (
                     <Image
                       source={{
                         uri: game && game.question ? game.question : null,
                       }}
-                      style={{ width: 340, height: 180, marginTop: 20 }}
+                      style={{ width: "90%", height: "25%", marginTop: 20 }}
                     />
                   )}
                   {initial && (
