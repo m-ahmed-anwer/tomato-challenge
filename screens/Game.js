@@ -15,6 +15,8 @@ import RuleModal from "../components/Modal.rule";
 import ScoreModal from "../components/Modal.score";
 import { AuthContext } from "../context/AuthContext";
 
+///MVC model view controller
+
 //Singleton Pattern
 class Score {
   constructor() {
@@ -129,6 +131,7 @@ export default function Game() {
       setRulesCheck(false);
       setInitial(false);
       fetchData();
+      heart.setLives();
     }, 50);
   };
 
@@ -168,10 +171,10 @@ export default function Game() {
 
   const modalButtonPress = () => {
     setTimeout(() => {
-      resetTimer();
       if (user !== "temp" && score.getScore() > user.score) {
         updateDB();
       }
+      resetTimer();
       heart.setLives();
       fetchData();
       setInitial(false);
