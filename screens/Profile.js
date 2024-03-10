@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   Platform,
+  Alert,
 } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import React, { useContext, useEffect } from "react";
@@ -16,6 +17,42 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function Profile() {
   const navigation = useNavigation();
   const { setUser, user } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  const sendEmail = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch("http://localhost:3000/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          to: user.email,
+          subject: "Score Result in Tomato Mystery Challenge",
+          text: `Your Score is : ${user.score}`,
+        }),
+      });
+
+      if (!response.ok) {
+        setIsLoading(false);
+        Alert.alert(
+          "Email failed",
+          "Error on sending email sorry to say that :( "
+        );
+
+        return;
+      }
+      setIsLoading(false);
+      Alert.alert(
+        "Success 🎉 🎊",
+        "Your score has been successfully sent to the email address."
+      );
+    } catch (error) {
+      setIsLoading(false);
+      Alert.alert("Failed", "Error sending on E-mail :( ");
+    }
+  };
 
   const logOut = () => {
     const clearToken = async () => {
@@ -97,6 +134,20 @@ export default function Profile() {
                 >
                   <Text style={styles.text}>Log Out</Text>
                   <Icon name="log-out" style={styles.iconInner} />
+                </TouchableOpacity>
+              </View>
+
+              <View style={styles.container2}>
+                <TouchableOpacity
+                  style={[styles.box, isLoading ? styles.disabledBox : null]}
+                  onPress={() => {
+                    if (!isLoading) {
+                      sendEmail();
+                    }
+                  }}
+                  disabled={isLoading}
+                >
+                  <Text style={styles.text}>Send Email</Text>
                 </TouchableOpacity>
               </View>
             </>
@@ -211,5 +262,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 7,
     color: "#5f5f5f",
     alignSelf: "flex-end",
+  },
+  disabledBox: {
+    backgroundColor: "gray", // Change to a color that indicates disabled state
   },
 });
