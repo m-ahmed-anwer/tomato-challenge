@@ -139,7 +139,10 @@ export default function Profile() {
 
               <View style={styles.container2}>
                 <TouchableOpacity
-                  style={[styles.box, isLoading ? styles.disabledBox : null]}
+                  style={[
+                    styles.send_email,
+                    isLoading ? styles.disabledBox : null,
+                  ]}
                   onPress={() => {
                     if (!isLoading) {
                       sendEmail();
@@ -147,7 +150,7 @@ export default function Profile() {
                   }}
                   disabled={isLoading}
                 >
-                  <Text style={styles.text}>Send Email</Text>
+                  <Text style={styles.text_email}>Send Email</Text>
                 </TouchableOpacity>
               </View>
             </>
@@ -180,6 +183,12 @@ const styles = StyleSheet.create({
   icon: {
     fontSize: 28,
     width: 32,
+  },
+  text_email: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center",
   },
   text: {
     fontSize: 20,
@@ -219,6 +228,19 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 1, height: 2 },
     shadowRadius: 3,
     shadowOpacity: 0.2,
+  },
+  send_email: {
+    backgroundColor: "#4CAF50",
+    padding: 10,
+    borderRadius: 5,
+    // Add a gradient color
+    background: "linear-gradient(to right, #4CAF50, #8BC34A)",
+    // Add a shadow effect
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 5,
   },
   box: {
     flexDirection: "row",
