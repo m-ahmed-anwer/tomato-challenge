@@ -19,7 +19,6 @@ export const AuthProvider = ({ children }) => {
             `http://localhost:3000/users/verifyToken/${token}`
           );
           const data = await response.json();
-          console.log(data);
           setUser(data.user);
         }
       } catch (error) {
