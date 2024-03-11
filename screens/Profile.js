@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Platform,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import React, { useContext, useEffect } from "react";
@@ -125,6 +126,42 @@ export default function Profile() {
                   Highest Score : {user && user.score}
                 </Text>
               </View>
+              <TouchableOpacity
+                disable={isLoading}
+                style={[
+                  {
+                    backgroundColor: "#102C57",
+                    flexDirection: "row",
+                    height: 50,
+                    alignItems: "center",
+                    paddingHorizontal: 30,
+                    justifyContent: "space-between",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    borderRadius: 20,
+                    marginTop: 30,
+                  },
+                  isLoading ? styles.disabledBox : null,
+                ]}
+                onPress={() => {
+                  if (!isLoading) {
+                    sendEmail();
+                  }
+                }}
+              >
+                {isLoading ? (
+                  <ActivityIndicator
+                    size="small"
+                    color="white"
+                    style={{ paddingHorizontal: 50 }}
+                  />
+                ) : (
+                  <Text style={[styles.text, { fontSize: 18 }]}>
+                    Send score to E-mail
+                  </Text>
+                )}
+              </TouchableOpacity>
+
               <View style={styles.container2}>
                 <TouchableOpacity
                   style={styles.box}
@@ -134,23 +171,6 @@ export default function Profile() {
                 >
                   <Text style={styles.text}>Log Out</Text>
                   <Icon name="log-out" style={styles.iconInner} />
-                </TouchableOpacity>
-              </View>
-
-              <View style={styles.container2}>
-                <TouchableOpacity
-                  style={[
-                    styles.send_email,
-                    isLoading ? styles.disabledBox : null,
-                  ]}
-                  onPress={() => {
-                    if (!isLoading) {
-                      sendEmail();
-                    }
-                  }}
-                  disabled={isLoading}
-                >
-                  <Text style={styles.text_email}>Send Email</Text>
                 </TouchableOpacity>
               </View>
             </>
@@ -218,7 +238,7 @@ const styles = StyleSheet.create({
     color: "#5f5f5f",
   },
   container2: {
-    marginTop: 70,
+    marginTop: 40,
     marginLeft: "auto",
     marginRight: "auto",
     width: "60%",
@@ -229,19 +249,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     shadowOpacity: 0.2,
   },
-  send_email: {
-    backgroundColor: "#4CAF50",
-    padding: 10,
-    borderRadius: 5,
-    // Add a gradient color
-    background: "linear-gradient(to right, #4CAF50, #8BC34A)",
-    // Add a shadow effect
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-    elevation: 5,
-  },
+
   box: {
     flexDirection: "row",
     height: hp(6),
@@ -286,6 +294,6 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
   },
   disabledBox: {
-    backgroundColor: "gray", // Change to a color that indicates disabled state
+    backgroundColor: "black",
   },
 });
