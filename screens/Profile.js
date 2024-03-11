@@ -114,21 +114,18 @@ export default function Profile() {
               </View>
               <TouchableOpacity
                 disable={isLoading}
-                style={[
-                  {
-                    backgroundColor: "#102C57",
-                    flexDirection: "row",
-                    height: 40,
-                    alignItems: "center",
-                    paddingHorizontal: 30,
-                    justifyContent: "space-between",
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    borderRadius: 20,
-                    marginTop: 15,
-                  },
-                  isLoading ? styles.disabledBox : null,
-                ]}
+                style={{
+                  backgroundColor: "#102C57",
+                  flexDirection: "row",
+                  height: 40,
+                  alignItems: "center",
+                  paddingHorizontal: 30,
+                  justifyContent: "space-between",
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  borderRadius: 20,
+                  marginTop: 15,
+                }}
                 onPress={() => {
                   if (!isLoading) {
                     sendEmail();
@@ -292,8 +289,5 @@ const styles = StyleSheet.create({
     marginHorizontal: 7,
     color: "#5f5f5f",
     alignSelf: "flex-end",
-  },
-  disabledBox: {
-    backgroundColor: "black",
   },
 });
