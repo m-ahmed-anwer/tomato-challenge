@@ -41,7 +41,6 @@ export default function Profile() {
           "Email failed",
           "Error on sending email sorry to say that :( "
         );
-
         return;
       }
       setIsLoading(false);
@@ -113,33 +112,20 @@ export default function Profile() {
                   <Text style={styles.txt2}>{user && user.email}</Text>
                 </View>
               </View>
-              <View
-                style={{
-                  marginTop: 30,
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                }}
-              >
-                <Text
-                  style={{ fontSize: 22, fontWeight: "bold", color: "#014070" }}
-                >
-                  Highest Score : {user && user.score}
-                </Text>
-              </View>
               <TouchableOpacity
                 disable={isLoading}
                 style={[
                   {
                     backgroundColor: "#102C57",
                     flexDirection: "row",
-                    height: 50,
+                    height: 40,
                     alignItems: "center",
                     paddingHorizontal: 30,
                     justifyContent: "space-between",
                     marginLeft: "auto",
                     marginRight: "auto",
                     borderRadius: 20,
-                    marginTop: 30,
+                    marginTop: 15,
                   },
                   isLoading ? styles.disabledBox : null,
                 ]}
@@ -156,11 +142,25 @@ export default function Profile() {
                     style={{ paddingHorizontal: 50 }}
                   />
                 ) : (
-                  <Text style={[styles.text, { fontSize: 18 }]}>
+                  <Text style={[styles.text, { fontSize: 15 }]}>
                     Send score to E-mail
                   </Text>
                 )}
               </TouchableOpacity>
+
+              <View
+                style={{
+                  marginTop: 20,
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                }}
+              >
+                <Text
+                  style={{ fontSize: 22, fontWeight: "bold", color: "#014070" }}
+                >
+                  Highest Score : {user && user.score}
+                </Text>
+              </View>
 
               <View style={styles.container2}>
                 <TouchableOpacity
@@ -238,10 +238,10 @@ const styles = StyleSheet.create({
     color: "#5f5f5f",
   },
   container2: {
-    marginTop: 40,
+    marginTop: 60,
     marginLeft: "auto",
     marginRight: "auto",
-    width: "60%",
+    width: "75%",
     backgroundColor: "red",
     borderRadius: 20,
     shadowColor: "black",
