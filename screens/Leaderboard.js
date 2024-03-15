@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  View,
   FlatList,
   RefreshControl,
   StyleSheet,
@@ -12,7 +11,6 @@ import LeaderboardUsers from "../components/leaderboard.users";
 export default function Leaderboard() {
   const [refreshing, setRefreshing] = useState(false);
   const [data, setData] = useState([]);
-  
 
   const fetchData = async () => {
     try {

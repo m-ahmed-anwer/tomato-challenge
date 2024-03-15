@@ -15,33 +15,37 @@ import { useNavigation } from "@react-navigation/native";
 import { ThemedButton } from "react-native-really-awesome-button";
 import { LinearGradient } from "expo-linear-gradient";
 
+const SignupData = {
+  name: "",
+  email: "",
+  password: "",
+};
+
 export default function Signup() {
   const navigation = useNavigation();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [userData, setUserData] = useState(SignupData);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSignup = async () => {
-    if (!name) {
+    if (!userData.name) {
       Alert.alert("Name Required", "Please enter your name.");
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    if (!emailRegex.test(userData.email)) {
       Alert.alert("Invalid Email", "Please enter a valid email address.");
       return;
     }
 
-    if (!password) {
+    if (!userData.password) {
       Alert.alert("Password Required", "Please enter your password.");
       return;
     }
     setIsLoading(true);
     try {
       const emailCheckResponse = await fetch(
-        `http://localhost:3000/users/emailcheck/${email}`
+        `http://localhost:3000/users/emailcheck/${userData.email}`
       );
       if (!emailCheckResponse.ok) {
         throw new Error("Email check failed");
@@ -59,11 +63,7 @@ export default function Signup() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          name,
-          email,
-          password,
-        }),
+        body: JSON.stringify(userData),
       });
 
       if (!response.ok) {
@@ -73,7 +73,7 @@ export default function Signup() {
 
       const data = await response.json();
       Alert.alert(
-        `Hello ${name}`,
+        `Hello ${userData.name}`,
         "Account created successfully, Login to your account"
       );
 
@@ -83,6 +83,7 @@ export default function Signup() {
       setIsLoading(false);
       Alert.alert("Error creating user:", error.message);
     }
+    setUserData(SignupData)
   };
 
   return (
@@ -150,8 +151,10 @@ export default function Signup() {
                 }}
                 placeholder="Name"
                 keyboardType="default"
-                value={name}
-                onChangeText={(text) => setName(text)}
+                value={userData.name}
+                onChangeText={(text) =>
+                  setUserData({ ...userData, name: text })
+                }
               />
             </View>
             <View
@@ -184,8 +187,10 @@ export default function Signup() {
                 }}
                 placeholder="Email"
                 keyboardType="email-address"
-                value={email}
-                onChangeText={(text) => setEmail(text)}
+                value={userData.email}
+                onChangeText={(text) =>
+                  setUserData({ ...userData, email: text })
+                }
               />
             </View>
             <View
@@ -218,8 +223,10 @@ export default function Signup() {
                 }}
                 placeholder="Password"
                 secureTextEntry
-                value={password}
-                onChangeText={(text) => setPassword(text)}
+                value={userData.password}
+                onChangeText={(text) =>
+                  setUserData({ ...userData, password: text })
+                }
               />
             </View>
             <ThemedButton

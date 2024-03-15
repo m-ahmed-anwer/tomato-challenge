@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
   Dimensions,
   Image,
   Platform,
@@ -13,11 +12,11 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
-import { StatusBar } from "expo-status-bar";
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../context/AuthContext";
 
 const windowWidth = Dimensions.get("window").width;
+
 export default function Landing() {
   const navigation = useNavigation();
   const { setUser } = useContext(AuthContext);

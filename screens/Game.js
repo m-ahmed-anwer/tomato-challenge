@@ -24,10 +24,10 @@ const heart = new Heart();
 export default function Game() {
   const number = Array.from({ length: 10 }, (_, i) => i);
   const [rulesCheck, setRulesCheck] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
   const [ruleModalVisible, setRuleModalVisible] = useState(true);
   const [value, setValue] = useState(1);
   const [game, setGame] = useState({});
-  const [modalVisible, setModalVisible] = useState(false);
   const [checkValue, setCheckValue] = useState(0);
   const [correct, setCorrect] = useState(false);
   const [isLoading, setIsLoading] = useState(false);

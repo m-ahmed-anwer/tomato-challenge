@@ -16,21 +16,25 @@ import { LinearGradient } from "expo-linear-gradient";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext, useAuth } from "../context/AuthContext";
 
+const LoginData = {
+  email: "",
+  password: "",
+};
+
 export default function Login() {
   const navigation = useNavigation();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [userData, setUserData] = useState(LoginData);
   const { setUser } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!emailRegex.test(email)) {
+    if (!emailRegex.test(userData.email)) {
       Alert.alert("Invalid Email", "Please enter a valid email address.");
       return;
     }
-    if (!password) {
+    if (!userData.password) {
       Alert.alert("Password Required", "Please enter your password.");
       return;
     }
@@ -42,7 +46,7 @@ export default function Login() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify(userData),
       });
 
       if (!response.ok) {
@@ -60,6 +64,7 @@ export default function Login() {
       setIsLoading(false);
       Alert.alert("Error :( ", error.message);
     }
+    setUserData(LoginData);
   };
 
   return (
@@ -128,8 +133,10 @@ export default function Login() {
                 }}
                 placeholder="Email"
                 keyboardType="email-address"
-                value={email}
-                onChangeText={(text) => setEmail(text)}
+                value={userData.email}
+                onChangeText={(text) =>
+                  setUserData({ ...userData, email: text })
+                }
               />
             </View>
             <View
@@ -162,8 +169,10 @@ export default function Login() {
                 }}
                 placeholder="Password"
                 secureTextEntry
-                value={password}
-                onChangeText={(text) => setPassword(text)}
+                value={userData.password}
+                onChangeText={(text) =>
+                  setUserData({ ...userData, password: text })
+                }
               />
             </View>
             <ThemedButton
