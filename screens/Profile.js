@@ -31,7 +31,7 @@ export default function Profile() {
         body: JSON.stringify({
           to: user.email,
           subject: "Score Result in Tomato Mystery Challenge",
-          text: `Your Score is : ${user.score}`,
+          text: `Congratulations ${user.name}🎉 \n\nYour Highest Score in Challenge is : ${user.score} 🚀\n\nGo break your record, play Tomato Challenge`,
         }),
       });
 

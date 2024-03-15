@@ -1,5 +1,5 @@
 import { Picker } from "@react-native-picker/picker";
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useState, useRef, useContext } from "react";
 import {
   View,
   Text,
@@ -40,7 +40,6 @@ export default function Game() {
   /**
    * Starts the game timer.
    */
-
   const startTimer = () => {
     if (!isRunning) {
       intervalRef.current = setInterval(() => {

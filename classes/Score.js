@@ -1,6 +1,5 @@
 // Singleton class to keep track of the score
 
-
 export class Score {
   constructor() {
     if (!Score.instance) {
