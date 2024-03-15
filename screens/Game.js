@@ -14,49 +14,15 @@ import { LinearGradient } from "expo-linear-gradient";
 import RuleModal from "../components/Modal.rule";
 import ScoreModal from "../components/Modal.score";
 import { AuthContext } from "../context/AuthContext";
+import { Score } from "../classes/Score";
+import { Heart } from "../classes/Heart";
 
-///MVC model view controller
-
-//Singleton Pattern
-class Score {
-  constructor() {
-    if (!Score.instance) {
-      this.score = 0;
-      Score.instance = this;
-    }
-  }
-  increaseScore() {
-    this.score++;
-  }
-  getScore() {
-    return this.score;
-  }
-  setScore(score) {
-    this.score = score;
-  }
-}
-
-//Design Pattern
-class Heart {
-  constructor() {
-    if (!Heart.instance) {
-      this.lives = 3;
-      Heart.instance = this;
-    }
-  }
-  decreaseLives() {
-    this.lives--;
-  }
-  setLives() {
-    this.lives = 3;
-  }
-}
-
+///Get the instance of the classes
 const score = new Score();
 const heart = new Heart();
 
 export default function Game() {
-  const number = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const number = Array.from({ length: 10 }, (_, i) => i);
   const [rulesCheck, setRulesCheck] = useState(true);
   const [ruleModalVisible, setRuleModalVisible] = useState(true);
   const [value, setValue] = useState(1);
@@ -70,6 +36,10 @@ export default function Game() {
   const [timer, setTimer] = useState(60);
   const [isRunning, setIsRunning] = useState(false);
   const intervalRef = useRef(null);
+
+  /**
+   * Starts the game timer.
+   */
 
   const startTimer = () => {
     if (!isRunning) {
@@ -88,6 +58,10 @@ export default function Game() {
       setIsRunning(true);
     }
   };
+
+  /**
+   * Stops the game timer.
+   */
   const stopTimer = () => {
     if (isRunning) {
       clearInterval(intervalRef.current);
@@ -95,12 +69,19 @@ export default function Game() {
     }
   };
 
+  /**
+   * Resets the game timer, score, and lives.
+   */
   const resetTimer = () => {
     setTimer(60);
     score.setScore(0);
     heart.setLives();
     stopTimer();
   };
+
+  /**
+   * Updates the user's score in the database.
+   */
 
   const updateDB = async () => {
     try {
@@ -124,7 +105,9 @@ export default function Game() {
       Alert.alert("Eror :(", error);
     }
   };
-
+  /**
+   * Handles the rule button press to start the game.
+   */
   const ruleButtonPress = () => {
     setTimeout(() => {
       setRuleModalVisible(!ruleModalVisible);
@@ -134,6 +117,9 @@ export default function Game() {
       heart.setLives();
     }, 50);
   };
+  /**
+   * Fetches a new game question from the API.
+   */
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -149,7 +135,9 @@ export default function Game() {
       Alert.alert("Eror :(", error);
     }
   };
-
+  /**
+   * Checks the user's answer and updates the game state accordingly.
+   */
   const checkAnswer = () => {
     stopTimer();
     if (parseInt(game.solution) === parseInt(value)) {
@@ -168,7 +156,9 @@ export default function Game() {
     fetchData();
     setInitial(true);
   };
-
+  /**
+   * Handles the modal button press to close the modal and update the game state.
+   */
   const modalButtonPress = () => {
     setTimeout(() => {
       if (user !== "temp" && score.getScore() > user.score) {
@@ -182,6 +172,7 @@ export default function Game() {
     }, 50);
   };
 
+  // Generates Picker items for numbers 0-9 to select the answer
   const data = number.map((item) => (
     <Picker.Item key={item} label={item.toString()} value={item} />
   ));
@@ -344,9 +335,6 @@ export default function Game() {
                   <ThemedButton
                     onPress={() => {
                       checkAnswer();
-                      // setModalVisible(true);
-                      //increaseScore();
-                      //navigation.navigate("");
                     }}
                     style={{ marginTop: 25 }}
                     name="bruce"
