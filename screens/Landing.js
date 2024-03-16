@@ -1,21 +1,9 @@
 import { ThemedButton } from "react-native-really-awesome-button";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Dimensions,
-  Image,
-  Platform,
-} from "react-native";
+import { View, Text, StyleSheet, Image, Platform } from "react-native";
 import React, { useContext } from "react";
-import {
-  heightPercentageToDP as hp,
-  widthPercentageToDP as wp,
-} from "react-native-responsive-screen";
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../context/AuthContext";
-
-const windowWidth = Dimensions.get("window").width;
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 
 export default function Landing() {
   const navigation = useNavigation();
@@ -109,6 +97,7 @@ export default function Landing() {
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   top: {
     flexDirection: "row",

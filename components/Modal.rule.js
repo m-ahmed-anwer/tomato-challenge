@@ -45,7 +45,7 @@ export default function RuleModal({
             borderRadius: 20,
             marginTop: 20,
             padding: 20,
-            alignItems: "flex-start", // Align text to the left
+            alignItems: "flex-start",
           }}
         >
           <Text

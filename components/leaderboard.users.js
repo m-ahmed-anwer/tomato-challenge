@@ -42,10 +42,10 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     flexDirection: "row",
 
-    shadowColor: "#000", // Shadow color
-    shadowOffset: { width: 0, height: 2 }, // Shadow offset
-    shadowOpacity: 0.25, // Shadow opacity
-    shadowRadius: 3.84, // Shadow radius
+    shadowColor: "#000", 
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25, 
+    shadowRadius: 3.84, 
     elevation: 5,
   },
   title1: {

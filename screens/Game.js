@@ -23,6 +23,7 @@ const heart = new Heart();
 
 export default function Game() {
   const number = Array.from({ length: 10 }, (_, i) => i);
+
   const [rulesCheck, setRulesCheck] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [ruleModalVisible, setRuleModalVisible] = useState(true);
@@ -32,10 +33,12 @@ export default function Game() {
   const [correct, setCorrect] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [initial, setInitial] = useState(false);
-  const { user, setUser } = useContext(AuthContext);
-  const [timer, setTimer] = useState(60);
+  const [timer, setTimer] = useState(11);
   const [isRunning, setIsRunning] = useState(false);
+
   const intervalRef = useRef(null);
+
+  const { user, setUser } = useContext(AuthContext);
 
   /**
    * Starts the game timer.
@@ -72,7 +75,7 @@ export default function Game() {
    * Resets the game timer, score, and lives.
    */
   const resetTimer = () => {
-    setTimer(60);
+    setTimer(11);
     score.setScore(0);
     heart.setLives();
     stopTimer();
@@ -126,7 +129,7 @@ export default function Game() {
       const response = await fetch("https://marcconrad.com/uob/tomato/api.php");
       const data = await response.json();
       setGame(data);
-      setTimer(60);
+      setTimer(11);
       startTimer();
       setIsLoading(false);
     } catch (error) {
@@ -138,7 +141,7 @@ export default function Game() {
    * Checks the user's answer and updates the game state accordingly.
    */
   const checkAnswer = () => {
-    stopTimer();
+    console.log(game.solution);
     if (parseInt(game.solution) === parseInt(value)) {
       setCorrect(true);
       score.increaseScore();
@@ -158,10 +161,11 @@ export default function Game() {
   /**
    * Handles the modal button press to close the modal and update the game state.
    */
+
   const modalButtonPress = () => {
     setTimeout(() => {
       if (user !== "temp" && score.getScore() > user.score) {
-        updateDB();
+        updateDB(score.getScore());
       }
       resetTimer();
       heart.setLives();

@@ -1,6 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
 
 export const AuthContext = createContext({
   user: null,
@@ -9,6 +8,7 @@ export const AuthContext = createContext({
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+
   useEffect(() => {
     const checkToken = async () => {
       try {
