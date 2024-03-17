@@ -21,7 +21,9 @@ export const AuthProvider = ({ children }) => {
           const data = await response.json();
           setUser(data.user);
         }
+        setUser(null);
       } catch (error) {
+        setUser(null);
         console.error("Error checking token:", error);
       }
     };

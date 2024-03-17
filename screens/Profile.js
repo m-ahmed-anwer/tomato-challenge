@@ -11,12 +11,10 @@ import {
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import React, { useContext, useEffect } from "react";
 import Icon from "react-native-vector-icons/Feather";
-import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../context/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Profile() {
-  const navigation = useNavigation();
   const { setUser, user } = useContext(AuthContext);
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -75,7 +73,7 @@ export default function Profile() {
         <View>
           <View style={styles.profile}>
             <Image
-              source={require("../assets/tomato.png")}
+              source={require("../assets/images/tomato.png")}
               style={styles.img}
             />
           </View>

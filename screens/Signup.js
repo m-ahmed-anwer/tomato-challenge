@@ -114,7 +114,7 @@ export default function Signup() {
             style={{ height: "100%", alignItems: "center" }}
           >
             <Image
-              source={require("../assets/tomato2.png")}
+              source={require("../assets/images/tomato2.png")}
               style={{
                 width: 200,
                 height: 200,

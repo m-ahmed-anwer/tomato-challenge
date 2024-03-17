@@ -4,10 +4,10 @@
     "slug": "TomatoChallenge",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/mystery.png",
+      "image": "./assets/images/mystery.png",
       "resizeMode": "contain",
       "backgroundColor": "#f1f1f1"
     },
@@ -17,12 +17,12 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/icon.png",
+        "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#ffffff"
       }
     },
     "web": {
-      "favicon": "./assets/icon.png"
+      "favicon": "./assets/images/icon.png"
     },
     "plugins": [
       [

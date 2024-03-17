@@ -11,11 +11,10 @@ import {
 } from "react-native";
 import { ThemedButton } from "react-native-really-awesome-button";
 import { LinearGradient } from "expo-linear-gradient";
-import RuleModal from "../components/Modal.rule";
-import ScoreModal from "../components/Modal.score";
+import RuleModal from "../components/Modal/Modal.rule";
+import ScoreModal from "../components/Modal/Modal.score";
 import { AuthContext } from "../context/AuthContext";
-import { Score } from "../classes/Score";
-import { Heart } from "../classes/Heart";
+import { Score, Heart } from "../classes/SingletonClass.js";
 
 ///Get the instance of the classes
 const score = new Score();
@@ -33,16 +32,14 @@ export default function Game() {
   const [correct, setCorrect] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [initial, setInitial] = useState(false);
-  const [timer, setTimer] = useState(11);
+  const [timer, setTimer] = useState(60);
   const [isRunning, setIsRunning] = useState(false);
 
   const intervalRef = useRef(null);
 
   const { user, setUser } = useContext(AuthContext);
 
-  /**
-   * Starts the game timer.
-   */
+  // Starts the game timer.
   const startTimer = () => {
     if (!isRunning) {
       intervalRef.current = setInterval(() => {
@@ -61,9 +58,7 @@ export default function Game() {
     }
   };
 
-  /**
-   * Stops the game timer.
-   */
+  //Stops the game timer.
   const stopTimer = () => {
     if (isRunning) {
       clearInterval(intervalRef.current);
@@ -71,20 +66,15 @@ export default function Game() {
     }
   };
 
-  /**
-   * Resets the game timer, score, and lives.
-   */
+  //  Resets the game timer, score, and lives.
   const resetTimer = () => {
-    setTimer(11);
+    setTimer(60);
     score.setScore(0);
     heart.setLives();
     stopTimer();
   };
 
-  /**
-   * Updates the user's score in the database.
-   */
-
+  // Updates the user's score in the database
   const updateDB = async () => {
     try {
       const response = await fetch(
@@ -107,29 +97,26 @@ export default function Game() {
       Alert.alert("Eror :(", error);
     }
   };
-  /**
-   * Handles the rule button press to start the game.
-   */
+
+  //Handles the rule button press to start the game.
   const ruleButtonPress = () => {
     setTimeout(() => {
-      setRuleModalVisible(!ruleModalVisible);
+      resetTimer();
       setRulesCheck(false);
       setInitial(false);
       fetchData();
-      heart.setLives();
+      setRuleModalVisible(!ruleModalVisible);
     }, 50);
   };
-  /**
-   * Fetches a new game question from the API.
-   */
 
+  //Fetches a new game question from the API.
   const fetchData = async () => {
     setIsLoading(true);
     try {
       const response = await fetch("https://marcconrad.com/uob/tomato/api.php");
       const data = await response.json();
       setGame(data);
-      setTimer(11);
+      setTimer(60);
       startTimer();
       setIsLoading(false);
     } catch (error) {
@@ -137,11 +124,9 @@ export default function Game() {
       Alert.alert("Eror :(", error);
     }
   };
-  /**
-   * Checks the user's answer and updates the game state accordingly.
-   */
+
+  // Checks the user's answer and updates the game state accordingly.
   const checkAnswer = () => {
-    console.log(game.solution);
     if (parseInt(game.solution) === parseInt(value)) {
       setCorrect(true);
       score.increaseScore();
@@ -158,17 +143,14 @@ export default function Game() {
     fetchData();
     setInitial(true);
   };
-  /**
-   * Handles the modal button press to close the modal and update the game state.
-   */
 
+  //Handles the modal button press to close the modal and update the game state.
   const modalButtonPress = () => {
     setTimeout(() => {
       if (user !== "temp" && score.getScore() > user.score) {
         updateDB(score.getScore());
       }
       resetTimer();
-      heart.setLives();
       fetchData();
       setInitial(false);
       setModalVisible(!modalVisible);

@@ -26,7 +26,7 @@ export default function Landing() {
       </Text>
       <View style={styles.top}>
         <Image
-          source={require("../assets/mystery.png")}
+          source={require("../assets/images/mystery.png")}
           style={{ width: 270, height: 230, marginTop: 40, borderRadius: 25 }}
         />
       </View>

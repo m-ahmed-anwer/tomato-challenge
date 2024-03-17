@@ -14,7 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import { ThemedButton } from "react-native-really-awesome-button";
 import { LinearGradient } from "expo-linear-gradient";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { AuthContext, useAuth } from "../context/AuthContext";
+import { AuthContext } from "../context/AuthContext";
 
 const LoginData = {
   email: "",
@@ -95,7 +95,7 @@ export default function Login() {
             style={{ height: "100%" }}
           >
             <Image
-              source={require("../assets/login.png")}
+              source={require("../assets/images/login.png")}
               style={{
                 width: 200,
                 height: 200,
