@@ -14,7 +14,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import RuleModal from "../components/Modal/Modal.rule";
 import ScoreModal from "../components/Modal/Modal.score";
 import { AuthContext } from "../context/AuthContext";
-import { Score, Heart } from "../classes/SingletonClass.js";
+import { Score } from "../classes/Score";
+import { Heart } from "../classes/Heart";
 
 ///Get the instance of the classes
 const score = new Score();

@@ -4,10 +4,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export const AuthContext = createContext({
   user: null,
   setUser: () => null,
+  isLoading: false,
+  setIsLoading: () => null,
 });
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const checkToken = async () => {
@@ -21,13 +24,13 @@ export const AuthProvider = ({ children }) => {
           const data = await response.json();
           setUser(data.user);
         }
-        setUser(null);
+        setIsLoading(false);
       } catch (error) {
         setUser(null);
+
         console.error("Error checking token:", error);
       }
     };
-
     checkToken();
   }, []);
 
