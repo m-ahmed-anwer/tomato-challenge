@@ -1,4 +1,4 @@
-// Singleton class to keep track of the heat lives
+// Singleton class to keep track of the heart lives
 
 export class Heart {
   constructor() {
