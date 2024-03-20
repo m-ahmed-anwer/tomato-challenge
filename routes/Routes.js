@@ -33,7 +33,7 @@ const AuthStack = () => {
         component={Login}
         options={({ route }) => ({
           title: "Login",
-          tabBarVisible: false, // Hide the bottom navigation bar
+          tabBarVisible: false, 
           headerStyle: { backgroundColor: "#102C57" },
           headerTintColor: "white",
           headerTitleStyle: { fontWeight: "bold", fontSize: 25 },
@@ -54,8 +54,8 @@ const AuthStack = () => {
         component={Signup}
         options={({ route }) => ({
           title: "Sign Up",
-          tabBarVisible: false, // Hide the bottom navigation bar
-          headerStyle: { backgroundColor: "#102C57", borderBottomWidth: 0 }, // Remove bottom border
+          tabBarVisible: false, 
+          headerStyle: { backgroundColor: "#102C57", borderBottomWidth: 0 }, 
           headerTintColor: "white",
           headerTitleStyle: { fontWeight: "bold", fontSize: 25 },
           headerBackTitleVisible: false,
@@ -84,8 +84,8 @@ const AppTab = () => {
       labeled={true}
       tabBarColor="#1111"
       tabBarOptions={{
-        activeTintColor: "#ffff", // Change to the color you want for the active tab
-        inactiveTintColor: "#ffff", // Change to the color you want for the inactive tabs
+        activeTintColor: "#ffff", 
+        inactiveTintColor: "#ffff", 
       }}
     >
       <Tab.Screen
@@ -119,7 +119,7 @@ const AppTab = () => {
         options={({ route }) => ({
           tabBarLabel: "Profile",
           title: "Profile",
-          tabBarVisible: false, // Hide the bottom navigation bar
+          tabBarVisible: false, 
           headerStyle: { backgroundColor: "#E0DDAA" },
           headerTintColor: "black",
           headerTitleStyle: { fontWeight: "bold", fontSize: 25 },
