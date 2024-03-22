@@ -1,3 +1,5 @@
+// Singleton class to keep track of the score,level,timer
+
 export class Level {
   constructor() {
     if (!Level.instance) {

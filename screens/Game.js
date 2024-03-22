@@ -18,7 +18,6 @@ import { Heart } from "../classes/Heart";
 import { Level } from "../classes/Level";
 
 ///Get the instance of the classes
-
 const heart = new Heart();
 const level = new Level();
 
