@@ -14,12 +14,13 @@ import { LinearGradient } from "expo-linear-gradient";
 import RuleModal from "../components/Modal/Modal.rule";
 import ScoreModal from "../components/Modal/Modal.score";
 import { AuthContext } from "../context/AuthContext";
-import { Score } from "../classes/Score";
 import { Heart } from "../classes/Heart";
+import { Level } from "../classes/Level";
 
 ///Get the instance of the classes
-const score = new Score();
+
 const heart = new Heart();
+const level = new Level();
 
 export default function Game() {
   const number = Array.from({ length: 10 }, (_, i) => i);
@@ -33,7 +34,7 @@ export default function Game() {
   const [correct, setCorrect] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [initial, setInitial] = useState(false);
-  const [timer, setTimer] = useState(60);
+  const [timer, setTimer] = useState(level.getTimerDuration());
   const [isRunning, setIsRunning] = useState(false);
 
   const intervalRef = useRef(null);
@@ -69,9 +70,10 @@ export default function Game() {
 
   //  Resets the game timer, score, and lives.
   const resetTimer = () => {
-    setTimer(60);
-    score.setScore(0);
+    setTimer(level.getTimerDuration());
+    level.setScore(0);
     heart.setLives();
+    level.resetLevel();
     stopTimer();
   };
 
@@ -85,7 +87,7 @@ export default function Game() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ score: score.getScore() }),
+          body: JSON.stringify({ score: level.getScore() }),
         }
       );
       if (!response.ok) {
@@ -116,8 +118,9 @@ export default function Game() {
     try {
       const response = await fetch("https://marcconrad.com/uob/tomato/api.php");
       const data = await response.json();
+      console.log(data.solution);
       setGame(data);
-      setTimer(60);
+      setTimer(level.getTimerDuration());
       startTimer();
       setIsLoading(false);
     } catch (error) {
@@ -130,7 +133,7 @@ export default function Game() {
   const checkAnswer = () => {
     if (parseInt(game.solution) === parseInt(value)) {
       setCorrect(true);
-      score.increaseScore();
+      level.increaseScore();
       setCheckValue(null);
     } else {
       setCheckValue(game.solution);
@@ -148,8 +151,8 @@ export default function Game() {
   //Handles the modal button press to close the modal and update the game state.
   const modalButtonPress = () => {
     setTimeout(() => {
-      if (user !== "temp" && score.getScore() > user.score) {
-        updateDB(score.getScore());
+      if (user !== "temp" && level.getScore() > user.score) {
+        updateDB(level.getScore());
       }
       resetTimer();
       fetchData();
@@ -164,7 +167,16 @@ export default function Game() {
   ));
 
   return (
-    <SafeAreaView style={{ backgroundColor: "#F8F0E5" }}>
+    <SafeAreaView
+      style={{
+        backgroundColor:
+          level.level === 1
+            ? "#F8F0E5"
+            : level.level === 2
+            ? "#bddebd"
+            : "#f5a2ab",
+      }}
+    >
       {rulesCheck ? (
         <View style={{ height: "100%" }}>
           <RuleModal
@@ -179,7 +191,7 @@ export default function Game() {
             modalVisible={modalVisible}
             setModalVisible={setModalVisible}
             modalButtonPress={modalButtonPress}
-            score={score.score}
+            score={level.score}
           />
 
           {!modalVisible && (
@@ -204,15 +216,45 @@ export default function Game() {
                 bounces={false}
               >
                 <LinearGradient
-                  colors={["#F8F0E5", "#F8Faf5", "#e8F0E5"]}
+                  colors={
+                    level.level === 1
+                      ? ["#F8F0E5", "#F8Faf5", "#e8F0E5"]
+                      : level.level === 2
+                      ? ["#bddebd", "#bddeaf", "#bddecd"]
+                      : level.level === 3
+                      ? ["#f5a2ab", "#f5a2ab", "#f3dce4"]
+                      : []
+                  }
                   style={{ height: "100%", alignItems: "center" }}
                 >
+                  <View
+                    style={{
+                      marginTop: 5,
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 24,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      Level :{" "}
+                      {level.level === 1
+                        ? "Easy"
+                        : level.level === 2
+                        ? "Medium"
+                        : "Hard"}
+                    </Text>
+                  </View>
+
                   <View
                     style={{
                       width: "100%",
                       flexDirection: "row",
                       justifyContent: "space-between",
-                      marginTop: 20,
+                      marginTop: 15,
                     }}
                   >
                     <Text
@@ -222,7 +264,7 @@ export default function Game() {
                         marginLeft: 30,
                       }}
                     >
-                      Score : {score.score}
+                      Score : {level.score}
                     </Text>
                     <Text
                       style={{
@@ -236,7 +278,7 @@ export default function Game() {
                   </View>
                   <View
                     style={{
-                      marginTop: 25,
+                      marginTop: 15,
                       marginLeft: "auto",
                       marginRight: "auto",
                     }}
@@ -249,7 +291,7 @@ export default function Game() {
                     <ActivityIndicator
                       size="large"
                       color="#102C57"
-                      style={{ marginVertical: 90 }}
+                      style={{ marginVertical: 80 }}
                     />
                   ) : (
                     <Image
@@ -266,7 +308,7 @@ export default function Game() {
                           style={{
                             color: "#00c900",
                             fontWeight: "bold",
-                            marginTop: 20,
+                            marginTop: 10,
                             fontSize: 18,
                           }}
                         >
@@ -279,7 +321,7 @@ export default function Game() {
                           style={{
                             color: "#ef4444",
                             fontWeight: "bold",
-                            marginTop: 20,
+                            marginTop: 10,
                             fontSize: 18,
                           }}
                         >
@@ -293,8 +335,7 @@ export default function Game() {
                     style={{
                       color: "black",
                       fontWeight: "bold",
-                      marginVertical: 15,
-
+                      marginVertical: 13,
                       fontSize: 18,
                     }}
                   >
@@ -322,7 +363,7 @@ export default function Game() {
                     onPress={() => {
                       checkAnswer();
                     }}
-                    style={{ marginTop: 25 }}
+                    style={{ marginTop: 20 }}
                     name="bruce"
                     type="anchor"
                   >
