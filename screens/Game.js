@@ -166,11 +166,11 @@ export default function Game() {
     <SafeAreaView
       style={{
         backgroundColor:
-          level.level === 1
-            ? "#F8F0E5"
-            : level.level === 2
+          level.level === 2
             ? "#bddebd"
-            : "#f5a2ab",
+            : level.level === 3
+            ? "#f5a2ab"
+            : "#F8F0E5",
       }}
     >
       {rulesCheck ? (

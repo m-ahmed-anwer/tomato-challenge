@@ -17,13 +17,6 @@ export class Level {
     return this.level;
   }
 
-  reset() {
-    this.level = 1;
-    this.lives = 3;
-    this.score = 0;
-    this.updateLevel();
-  }
-
   increaseScore() {
     this.score++;
     this.updateLevel();
@@ -41,7 +34,7 @@ export class Level {
   }
 
   getTimerDuration() {
-    let baseDuration = 60; 
+    let baseDuration = 60;
 
     switch (this.level) {
       case 1:
@@ -59,5 +52,12 @@ export class Level {
     }
 
     return baseDuration;
+  }
+
+  reset() {
+    this.level = 1;
+    this.lives = 3;
+    this.score = 0;
+    this.updateLevel();
   }
 }
