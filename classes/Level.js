@@ -41,20 +41,20 @@ export class Level {
   }
 
   getTimerDuration() {
-    let baseDuration = 60; // 60 seconds
+    let baseDuration = 60; 
 
     switch (this.level) {
       case 1:
-        baseDuration = 60; // 60 seconds
+        baseDuration = 60;
         break;
       case 2:
-        baseDuration = 45; // 45 seconds
+        baseDuration = 45;
         break;
       case 3:
-        baseDuration = 30; // 30 seconds
+        baseDuration = 30;
         break;
       default:
-        baseDuration = 60; // Default to 60 seconds
+        baseDuration = 60;
         break;
     }
 
