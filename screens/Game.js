@@ -14,11 +14,9 @@ import { LinearGradient } from "expo-linear-gradient";
 import RuleModal from "../components/Modal/Modal.rule";
 import ScoreModal from "../components/Modal/Modal.score";
 import { AuthContext } from "../context/AuthContext";
-import { Heart } from "../classes/Heart";
 import { Level } from "../classes/Level";
 
 ///Get the instance of the classes
-const heart = new Heart();
 const level = new Level();
 
 export default function Game() {
@@ -48,9 +46,9 @@ export default function Game() {
           if (prevTimer > 0) {
             return prevTimer - 1;
           } else {
+            checkAnswer();
             clearInterval(intervalRef.current);
             setIsRunning(false);
-            checkAnswer();
             return prevTimer;
           }
         });
@@ -70,9 +68,7 @@ export default function Game() {
   //  Resets the game timer, score, and lives.
   const resetTimer = () => {
     setTimer(level.getTimerDuration());
-    level.setScore(0);
-    heart.setLives();
-    level.resetLevel();
+    level.reset();
     stopTimer();
   };
 
@@ -130,16 +126,17 @@ export default function Game() {
 
   // Checks the user's answer and updates the game state accordingly.
   const checkAnswer = () => {
+    stopTimer();
     if (parseInt(game.solution) === parseInt(value)) {
       setCorrect(true);
       level.increaseScore();
       setCheckValue(null);
     } else {
       setCheckValue(game.solution);
-      heart.decreaseLives();
+      level.decreaseLives();
       setCorrect(false);
     }
-    if (heart.lives === 0) {
+    if (level.lives === 0) {
       setModalVisible(true);
       return;
     }
@@ -283,7 +280,7 @@ export default function Game() {
                     }}
                   >
                     <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-                      Remaining Lives :{"❤️".repeat(heart.lives)}
+                      Remaining Lives :{"❤️".repeat(level.lives)}
                     </Text>
                   </View>
                   {isLoading ? (

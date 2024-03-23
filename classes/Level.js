@@ -5,16 +5,23 @@ export class Level {
     if (!Level.instance) {
       this.level = 1;
       this.score = 0;
+      this.lives = 3;
       Level.instance = this;
     }
+  }
+  decreaseLives() {
+    this.lives--;
   }
 
   getLevel() {
     return this.level;
   }
 
-  resetLevel() {
+  reset() {
     this.level = 1;
+    this.lives = 3;
+    this.score = 0;
+    this.updateLevel();
   }
 
   increaseScore() {
@@ -24,11 +31,6 @@ export class Level {
 
   getScore() {
     return this.score;
-  }
-
-  setScore(score) {
-    this.score = score;
-    this.updateLevel();
   }
 
   updateLevel() {
