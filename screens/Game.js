@@ -1,5 +1,5 @@
 import { Picker } from "@react-native-picker/picker";
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import {
   View,
   Text,
@@ -41,6 +41,11 @@ export default function Game() {
   // Starts the game timer.
   const startTimer = () => {
     if (!isRunning) {
+      setIsRunning(true); // Set isRunning to true before starting the interval
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current); // Clear any existing interval
+      }
+      setTimer(level.getTimerDuration());
       intervalRef.current = setInterval(() => {
         setTimer((prevTimer) => {
           if (prevTimer > 0) {
@@ -48,16 +53,15 @@ export default function Game() {
           } else {
             checkAnswer();
             clearInterval(intervalRef.current);
-            setIsRunning(false);
+            setIsRunning(false); // Set isRunning to false when the timer reaches 0
             return prevTimer;
           }
         });
       }, 1000);
-      setIsRunning(true);
     }
   };
 
-  //Stops the game timer.
+  // Stops the game timer.
   const stopTimer = () => {
     if (isRunning) {
       clearInterval(intervalRef.current);
@@ -98,14 +102,16 @@ export default function Game() {
 
   //Handles the rule button press to start the game.
   const ruleButtonPress = () => {
-    setTimeout(() => {
-      resetTimer();
-      setRulesCheck(false);
-      setInitial(false);
-      fetchData();
-      setRuleModalVisible(!ruleModalVisible);
-    }, 50);
+    resetTimer();
+    setRulesCheck(false);
+    setInitial(false);
+    fetchData();
+    setRuleModalVisible(false); // Change to false to close the modal
   };
+
+  useEffect(() => {
+    startTimer();
+  }, [game]);
 
   //Fetches a new game question from the API.
   const fetchData = async () => {
@@ -115,8 +121,7 @@ export default function Game() {
       const data = await response.json();
       console.log(data.solution);
       setGame(data);
-      setTimer(level.getTimerDuration());
-      startTimer();
+
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -127,6 +132,7 @@ export default function Game() {
   // Checks the user's answer and updates the game state accordingly.
   const checkAnswer = () => {
     stopTimer();
+
     if (parseInt(game.solution) === parseInt(value)) {
       setCorrect(true);
       level.increaseScore();
@@ -140,6 +146,7 @@ export default function Game() {
       setModalVisible(true);
       return;
     }
+
     fetchData();
     setInitial(true);
   };
@@ -152,6 +159,7 @@ export default function Game() {
       }
       resetTimer();
       fetchData();
+
       setInitial(false);
       setModalVisible(!modalVisible);
     }, 50);
