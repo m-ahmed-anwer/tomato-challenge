@@ -37,7 +37,7 @@ export default function RuleModal({
         </Text>
         <View
           style={{
-            height: 465,
+            height: "auto",
             backgroundColor: "white",
             width: "95%",
             marginLeft: "auto",
@@ -69,7 +69,8 @@ export default function RuleModal({
             }}
           >
             🍅 Find the Numbers: Your goal is to identify these hidden numbers
-            within the tomatoes. You have 1 minute for each equation.
+            within the tomatoes. You have 1 minute for each equation on easy
+            mode, 45 seconds on medium mode, and 30 seconds on hard mode.
           </Text>
           <Text
             style={{
